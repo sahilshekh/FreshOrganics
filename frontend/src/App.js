@@ -5,7 +5,7 @@ import HowItWorks from './components/HowItWorks';
 import Products from './components/Products';
 import Subscriptions from './components/Subscriptions';
 import Footer from './components/Footer';
-import Timeline from './components/Timeline'; // Import the new component
+import Timeline from './components/Timeline';
 
 function App() {
   return (
@@ -13,10 +13,11 @@ function App() {
       <Header />
       <main className="flex-grow">
         <Hero />
-        <HowItWorks />
-        <Products />
+        <Timeline />
+        {/* <HowItWorks /> */}
         <Subscriptions />
-        <Timeline /> 
+        <Products />
+        {/* <Timeline /> */}
       </main>
       <Footer />
     </div>
