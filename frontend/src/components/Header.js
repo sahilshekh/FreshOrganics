@@ -1,8 +1,10 @@
-import React, { Profiler, useState } from 'react';
-import { Menu, X, Home, Package, User, ShoppingBasket, ShoppingCart } from 'lucide-react'; // Added Home and Package icons
+// src/components/Header.js
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Add Link
+import { Menu, X, Home, Package, User, ShoppingCart } from 'lucide-react';
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false); // State to toggle mobile menu
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="bg-green-700 text-white p-4">
@@ -28,40 +30,34 @@ const Header = () => {
           } md:flex flex-col md:flex-row md:space-x-6 absolute md:static top-16 left-0 w-full md:w-auto bg-green-700 md:bg-transparent p-4 md:p-0 transition-all duration-300 ease-in-out z-40`}
         >
           <li className="md:mb-0 mb-2">
-            <a href="#home" className="hover:text-green-300 block flex items-center">
-              <Home className="h-5 w-5 mr-2 md:hidden" /> {/* Home icon, hidden on desktop */}
+            <Link to="/" className="hover:text-green-300 block flex items-center">
+              <Home className="h-5 w-5 mr-2 md:hidden" />
               Home
-            </a>
+            </Link>
           </li>
-          {/* <li className="md:mb-0 mb-2">
-            <a href="#how-it-works" className="hover:text-green-300 block">
-              How It Works
-            </a>
-          </li> */}
-          {/* <li className="md:mb-0 mb-2">
-            <a href="#products" className="hover:text-green-300 block">
-              Products
-            </a>
-          </li> */}
           <li className="md:mb-0 mb-2">
-            <a href="#subscriptions" className="hover:text-green-300 block flex items-center">
-              <Package className="h-5 w-5 mr-2 md:hidden" /> {/* Subscriptions icon, hidden on desktop */}
+            <Link to="/subscriptions" className="hover:text-green-300 block flex items-center">
+              <Package className="h-5 w-5 mr-2 md:hidden" />
               Subscriptions
-            </a>
+            </Link>
           </li>
           <li className="md:mb-0 mb-2">
-            <a href="#cart" className="hover:text-green-300 block flex items-center">
-              <span className="mr-2 text-white">
-              <ShoppingCart className="h-5 w-5 mr-2 md:hidden" />
-              </span> Cart
-            </a>
+            <Link to="/about" className="hover:text-green-300 block flex items-center">
+              <Package className="h-5 w-5 mr-2 md:hidden" />
+              About
+            </Link>
           </li>
           <li className="md:mb-0 mb-2">
-            <a href="#profile" className="hover:text-green-300 block flex items-center">
-              <span className="mr-2 text-white">
-              <User className="h-5 w-5 mr-2 md:hidden" />
-                </span> Profile
-            </a>
+            <Link to="/cart" className="hover:text-green-300 block flex items-center">
+              <ShoppingCart className="h-5 w-5 mr-2" />
+              <span className="md:hidden">Cart</span>
+            </Link>
+          </li>
+          <li className="md:mb-0 mb-2">
+            <Link to="/profile" className="hover:text-green-300 block flex items-center">
+              <User className="h-5 w-5 mr-2" />
+              <span className="md:hidden">Profile</span>
+            </Link>
           </li>
         </ul>
       </div>

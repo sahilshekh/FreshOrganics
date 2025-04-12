@@ -1,21 +1,49 @@
 import React from 'react';
+import { Check } from 'lucide-react'; // Import Check icon
 
 const Subscriptions = () => {
   const plans = [
     {
       name: 'Weekly Essential',
       price: '$29.99/week',
-      features: ['5-7 types of seasonal vegetables', 'Bulk quantities for family', 'Free delivery', 'Flexible delivery schedule', 'Skip or pause anytime', 'Recipe suggestions', 'Priority customer support', 'Monthly seasonal specials'],
+      features: [
+        '5-7 types of seasonal vegetables',
+        'Bulk quantities for family',
+        'Free delivery',
+        'Flexible delivery schedule',
+        'Skip or pause anytime',
+        'Recipe suggestions',
+        'Priority customer support',
+        'Monthly seasonal specials',
+      ],
     },
     {
       name: 'Weekly Premium',
       price: '$49.99/week',
-      features: ['8-12 types of seasonal vegetables', 'Bulk quantities for family', 'Free delivery', 'Flexible delivery schedule', 'Skip or pause anytime', 'Recipe suggestions', 'Priority customer support', 'Monthly seasonal specials'],
+      features: [
+        '8-12 types of seasonal vegetables',
+        'Bulk quantities for family',
+        'Free delivery',
+        'Flexible delivery schedule',
+        'Skip or pause anytime',
+        'Recipe suggestions',
+        'Priority customer support',
+        'Monthly seasonal specials',
+      ],
     },
     {
       name: 'Monthly Family',
       price: '$179.99/month',
-      features: ['10-12 types of seasonal vegetables', 'Bulk quantities for family', 'Free delivery', 'Flexible delivery schedule', 'Skip or pause anytime', 'Recipe suggestions', 'Priority customer support', 'Monthly seasonal specials'],
+      features: [
+        '10-12 types of seasonal vegetables',
+        'Bulk quantities for family',
+        'Free delivery',
+        'Flexible delivery schedule',
+        'Skip or pause anytime',
+        'Recipe suggestions',
+        'Priority customer support',
+        'Monthly seasonal specials',
+      ],
     },
   ];
 
@@ -35,7 +63,7 @@ const Subscriptions = () => {
             <ul className="mt-4 space-y-2 text-sm">
               {plan.features.map((feature, i) => (
                 <li key={i} className="flex items-center">
-                  <span className="text-green-500 mr-2">✔</span> {feature}
+                  <Check className="text-green-500 mr-2 h-5 w-5" /> {feature}
                 </li>
               ))}
             </ul>

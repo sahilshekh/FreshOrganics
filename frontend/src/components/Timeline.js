@@ -1,13 +1,13 @@
 import React from 'react';
-import { Users, Calendar, Package, Home, ArrowRight } from 'lucide-react';
+import { Users, Calendar, Package, Home, ArrowRight, ArrowDown } from 'lucide-react';
 
 const Timeline = () => {
   const phases = [
     {
-      title: 'Partner with Farmers',
+      title: 'We Partner With Farmers',
       months: 'JAN - MAR',
       icon: <Users className="h-12 w-12 text-green-500" />,
-      description: ['We work directly with certified organic farmers to ensure the highest quality produce'],
+      description: ['We work hand-in-hand with trusted farmers to bring you the freshest, highest-quality produce straight from their fields to your table.'],
     },
     {
       title: 'Choose Your Plan',
@@ -30,7 +30,7 @@ const Timeline = () => {
   ];
 
   return (
-    <div className="py-12 bg-green-40"> {/* Fixed bg-green-30 to bg-green-50 assuming it was a typo */}
+    <div className="py-12 bg-green-50">
       <h2 className="text-3xl font-bold text-center mb-8">How It Works</h2>
       <div className="relative max-w-6xl mx-auto px-4">
         {/* Desktop view with horizontal line */}
@@ -38,17 +38,16 @@ const Timeline = () => {
           {/* Timeline Line */}
           <div className="absolute left-1/2 transform -translate-x-1/2 h-1 bg-green-500 w-11/12 top-12" />
           
-          <div className="flex flex-col sm:flex-row justify-between items-start">
+          <div className="flex flex-row justify-between items-start">
             {phases.map((phase, index) => (
               <div key={index} className="flex items-center w-full">
-                <div className="text-center flex-1 px-2 relative z-10">
+                <div className="text-center flex-1 px-2 relative z-10 min-h-[200px]">
                   <div className="flex justify-center mb-4">
                     <div className="bg-white rounded-full p-4 shadow-md">
                       {phase.icon}
                     </div>
                   </div>
                   <h3 className="text-lg font-semibold mb-2">{phase.title}</h3>
-                  <p className="text-sm text-gray-600 mb-4">{phase.months}</p>
                   <ul className="text-sm text-gray-700">
                     {phase.description.map((item, i) => (
                       <li key={i}>{item}</li>
@@ -56,7 +55,9 @@ const Timeline = () => {
                   </ul>
                 </div>
                 {index < phases.length - 1 && (
-                  <ArrowRight className="h-6 w-6 text-green-500 mx-2 flex-shrink-0 hidden sm:block" />
+                  <div className="flex items-center h-full">
+                    <ArrowRight className="h-6 w-6 text-green-500 mx-2 flex-shrink-0" />
+                  </div>
                 )}
               </div>
             ))}
@@ -73,7 +74,6 @@ const Timeline = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold">{phase.title}</h3>
-                  <p className="text-sm text-gray-600 mb-2">{phase.months}</p>
                   <ul className="text-sm text-gray-700">
                     {phase.description.map((item, i) => (
                       <li key={i}>{item}</li>
@@ -83,7 +83,7 @@ const Timeline = () => {
               </div>
               {index < phases.length - 1 && (
                 <div className="flex justify-center mt-4">
-                  <ArrowRight className="h-6 w-6 text-green-500 transform rotate-90" />
+                  <ArrowDown className="h-6 w-6 text-green-500" />
                 </div>
               )}
             </div>

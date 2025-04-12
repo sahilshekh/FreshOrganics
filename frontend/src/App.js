@@ -1,26 +1,24 @@
+// src/App.js
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import HowItWorks from './components/HowItWorks';
-import Products from './components/Products';
-import Subscriptions from './components/Subscriptions';
-import Footer from './components/Footer';
-import Timeline from './components/Timeline';
+import About from './components/About';
+import Home from './components/Home'; // Placeholder for homepage
+import Subscriptions from './components/Subscriptions'; // Example other page
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow">
-        <Hero />
-        <Timeline />
-        {/* <HowItWorks /> */}
-        <Subscriptions />
-        <Products />
-        {/* <Timeline /> */}
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/subscriptions" element={<Subscriptions />} />
+          {/* Add other routes as needed */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
