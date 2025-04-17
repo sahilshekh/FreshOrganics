@@ -1,10 +1,15 @@
-// src/components/Header.js
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Add Link
+import { Link } from 'react-router-dom';
 import { Menu, X, Home, Package, User, ShoppingCart } from 'lucide-react';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Function to handle link clicks and close the menu
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
 
   return (
     <nav className="bg-green-700 text-white p-4">
@@ -30,31 +35,51 @@ const Header = () => {
           } md:flex flex-col md:flex-row md:space-x-6 absolute md:static top-16 left-0 w-full md:w-auto bg-green-700 md:bg-transparent p-4 md:p-0 transition-all duration-300 ease-in-out z-40`}
         >
           <li className="md:mb-0 mb-2">
-            <Link to="/" className="hover:text-green-300 block flex items-center">
+            <Link
+              to="/"
+              className="hover:text-green-300 block flex items-center"
+              onClick={handleLinkClick}
+            >
               <Home className="h-5 w-5 mr-2 md:hidden" />
               Home
             </Link>
           </li>
           <li className="md:mb-0 mb-2">
-            <Link to="/subscriptions" className="hover:text-green-300 block flex items-center">
+            <Link
+              to="/subscriptions"
+              className="hover:text-green-300 block flex items-center"
+              onClick={handleLinkClick}
+            >
               <Package className="h-5 w-5 mr-2 md:hidden" />
               Subscriptions
             </Link>
           </li>
           <li className="md:mb-0 mb-2">
-            <Link to="/about" className="hover:text-green-300 block flex items-center">
+            <Link
+              to="/about"
+              className="hover:text-green-300 block flex items-center"
+              onClick={handleLinkClick}
+            >
               <Package className="h-5 w-5 mr-2 md:hidden" />
               About
             </Link>
           </li>
           <li className="md:mb-0 mb-2">
-            <Link to="/cart" className="hover:text-green-300 block flex items-center">
+            <Link
+              to="/cart"
+              className="hover:text-green-300 block flex items-center"
+              onClick={handleLinkClick}
+            >
               <ShoppingCart className="h-5 w-5 mr-2" />
               <span className="md:hidden">Cart</span>
             </Link>
           </li>
           <li className="md:mb-0 mb-2">
-            <Link to="/profile" className="hover:text-green-300 block flex items-center">
+            <Link
+              to="/profile"
+              className="hover:text-green-300 block flex items-center"
+              onClick={handleLinkClick}
+            >
               <User className="h-5 w-5 mr-2" />
               <span className="md:hidden">Profile</span>
             </Link>

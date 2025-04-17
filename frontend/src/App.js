@@ -5,6 +5,9 @@ import Header from './components/Header';
 import About from './components/About';
 import Home from './components/Home'; // Placeholder for homepage
 import Subscriptions from './components/Subscriptions'; // Example other page
+import Cart from './components/Cart';
+import Profile from './components/Profile';
+import Checkout from './components/Checkout';
 
 function App() {
   return (
@@ -15,6 +18,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/checkout" element={<Checkout />} />
           {/* Add other routes as needed */}
         </Routes>
       </div>

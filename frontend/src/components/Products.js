@@ -11,9 +11,12 @@ const Products = () => {
   return (
     <div className="py-12">
       <h2 className="text-3xl font-bold text-center mb-12">Individual Products</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto px-4 relative">
         {products.map((product, index) => (
-          <div key={index} className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
+          <div
+            key={index}
+            className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition lg:after:content-[''] lg:after:absolute lg:after:right-[-12px] lg:after:top-0 lg:after:h-full lg:after:border-l-2 lg:after:border-gray-200"
+          >
             <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded" />
             <h3 className="text-lg font-semibold mt-2">{product.name}</h3>
             <p className="text-gray-600 mt-1">{product.price}</p>
