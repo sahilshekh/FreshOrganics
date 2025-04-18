@@ -1,17 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { User, Package, LogOut, ArrowRight } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { AuthContext } from './AuthContext';
 import Footer from './Footer';
 
-// Mock user data
-const user = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  address: '123 Green Lane, Farmville, FV 12345',
-  phone: '(123) 456-7890',
-};
-
 const Profile = () => {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    console.log('Logging out user:', user?.email);
+    logout();
+    toast.success('Logged out successfully!');
+    navigate('/');
+  };
+
+  // Fallback if user is null (shouldn't happen due to ProtectedRoute)
+  if (!user) {
+    console.log('No user found in Profile');
+    return null;
+  }
+
   return (
     <div className="bg-gray-50 min-h-screen font-sans text-gray-800">
       {/* Hero Section */}
@@ -33,8 +43,8 @@ const Profile = () => {
                 <p className="text-gray-600"><strong>Email:</strong> {user.email}</p>
               </div>
               <div>
-                <p className="text-gray-600"><strong>Address:</strong> {user.address}</p>
-                <p className="text-gray-600"><strong>Phone:</strong> {user.phone}</p>
+                <p className="text-gray-600"><strong>Address:</strong> Not set</p>
+                <p className="text-gray-600"><strong>Phone:</strong> Not set</p>
               </div>
             </div>
             <div className="mt-6 flex justify-center md:justify-start">
@@ -63,18 +73,18 @@ const Profile = () => {
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Order History</h3>
               <p className="text-gray-600 text-sm">View your past orders and track deliveries.</p>
             </Link>
-            <Link
-              to="/logout"
+            <button
+              onClick={handleLogout}
               className="bg-white p-6 rounded-lg shadow-md text-center hover:bg-gray-100 transition-colors duration-300"
             >
               <LogOut className="h-12 w-12 text-green-500 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Log Out</h3>
               <p className="text-gray-600 text-sm">Sign out of your account.</p>
-            </Link>
+            </button>
           </div>
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

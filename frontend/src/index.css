@@ -1,3 +1,32 @@
+/* src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.z-50 { z-index: 50 !important; }
+.z-60 { z-index: 60 !important; }
+
+/* Ensure LoginSignupPopup is above everything */
+.login-popup {
+  z-index: 60 !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards 0.1s; /* Delay to allow menu to close */
+}
+
+/* Fade-in animation for popup */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Ensure hamburger menu is fully hidden when closed */
+.nav-menu-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}

@@ -11,7 +11,7 @@ const allProducts = [
   { id: 6, name: 'Organic Carrots', price: 2.49, image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37' },
 ];
 
-const TryForTodayPopup = ({ isOpen, onClose, onAddToCart }) => {
+const TryForTodayPopup = ({ isOpen, onClose, onAddBundleToCart }) => {
   const [specialProducts, setSpecialProducts] = useState([]);
 
   // Select 3 random products when popup opens
@@ -21,6 +21,11 @@ const TryForTodayPopup = ({ isOpen, onClose, onAddToCart }) => {
       setSpecialProducts(shuffled.slice(0, 3));
     }
   }, [isOpen]);
+
+  // Calculate total bundle price
+  const totalBundlePrice = specialProducts
+    .reduce((total, product) => total + product.price, 0)
+    .toFixed(2);
 
   if (!isOpen) return null;
 
@@ -37,10 +42,10 @@ const TryForTodayPopup = ({ isOpen, onClose, onAddToCart }) => {
 
         {/* Popup Content */}
         <h2 className="text-2xl font-semibold text-green-700 mb-4 text-center">
-          Today's Specials
+          Today's Special Bundle
         </h2>
         <p className="text-gray-600 text-center mb-6">
-          Hand-picked organic delights just for you!
+          Enjoy this curated selection of organic delights for today only!
         </p>
         <div className="space-y-4">
           {specialProducts.map((product) => (
@@ -57,15 +62,21 @@ const TryForTodayPopup = ({ isOpen, onClose, onAddToCart }) => {
                 <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
                 <p className="text-gray-600">${product.price.toFixed(2)}</p>
               </div>
-              <button
-                onClick={() => onAddToCart(product)}
-                className="bg-green-700 text-white px-3 py-1 rounded-md hover:bg-green-600 flex items-center"
-              >
-                <ShoppingCart className="h-4 w-4 mr-1" />
-                Add
-              </button>
             </div>
           ))}
+        </div>
+        {/* Bundle Price and Add to Cart Button */}
+        <div className="mt-6 flex flex-col items-center">
+          <p className="text-lg font-semibold text-gray-800 mb-4">
+            Bundle Price: ${totalBundlePrice}
+          </p>
+          <button
+            onClick={() => onAddBundleToCart(specialProducts)}
+            className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-600 flex items-center"
+          >
+            <ShoppingCart className="h-5 w-5 mr-2" />
+            Add Today's Bundle to Cart
+          </button>
         </div>
       </div>
     </div>

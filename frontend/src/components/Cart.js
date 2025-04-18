@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
+import { CartContext } from './CartContext';
 import Footer from './Footer';
 
-// Mock cart data
-const initialCartItems = [
-  { id: 1, name: 'Organic Tomatoes', price: 4.99, quantity: 2, image: 'https://images.unsplash.com/photo-1607305387299-a3d9611cd469' },
-  { id: 2, name: 'Organic Cucumbers', price: 2.99, quantity: 3, image: 'https://nativeindianorganics.com/wp-content/uploads/2022/09/cucumber-seeds-online-india.jpg' },
-];
-
 const Cart = () => {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const { cartItems, setCartItems } = useContext(CartContext);
 
   // Calculate total price
   const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
@@ -124,7 +119,7 @@ const Cart = () => {
           )}
         </div>
       </section>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

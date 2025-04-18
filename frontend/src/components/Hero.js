@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
+import { AuthContext } from './AuthContext';
 import heroBackground from './images/main.png';
 
-const Hero = ({ onTryForToday }) => {
+const Hero = ({ onTryForToday, setIsLoginPopupOpen }) => {
+  const { user } = useContext(AuthContext);
+
   return (
     <div
       className="relative bg-cover bg-center h-screen"
@@ -20,8 +24,15 @@ const Hero = ({ onTryForToday }) => {
             Experience the freshness of organic vegetables sourced directly from local farmers
           </p>
           <div className="mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
-            <button className="bg-green-500 text-white px-6 py-[0.7rem] rounded-full hover:bg-green-600 w-3/4 sm:w-auto mx-auto sm:mx-0">
-              Start Subscription
+            <button
+              onClick={() => (user ? null : setIsLoginPopupOpen(true))}
+              className="bg-green-500 text-white px-6 py-[0.7rem] rounded-full hover:bg-green-600 w-3/4 sm:w-auto mx-auto sm:mx-0"
+            >
+              {user ? (
+                <Link to="/subscriptions">Start Subscription</Link>
+              ) : (
+                'Start Subscription'
+              )}
             </button>
             <button className="bg-white text-green-500 px-6 py-[0.7rem] rounded-full hover:bg-gray-200 w-3/4 sm:w-auto mx-auto sm:mx-0">
               Shop Individual Items
