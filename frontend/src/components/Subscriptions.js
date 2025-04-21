@@ -1,47 +1,50 @@
 import React from 'react';
-import { Check } from 'lucide-react'; // Import Check icon
+import { Check } from 'lucide-react';
 
 const Subscriptions = () => {
   const plans = [
     {
-      name: 'Weekly Essential',
-      price: '$29.99/week',
+      name: 'Weekly Basic Subscription Plan',
+      price: '₹999/week',
       features: [
-        '5-7 types of seasonal vegetables',
+        '9-10 types of seasonal vegetables',
         'Bulk quantities for family',
         'Free delivery',
-        'Flexible delivery schedule',
-        'Skip or pause anytime',
-        'Recipe suggestions',
-        'Priority customer support',
-        'Monthly seasonal specials',
+        'Expert nutritionist recipe suggestions',
+        'Daily call confirmation before each order',
+        'Save money on essential groceries',
+        'Enjoy a variety of seasonal vegetables',
+        'Convenient and hassle-free subscription service',
       ],
     },
     {
-      name: 'Weekly Premium',
-      price: '$49.99/week',
+      name: 'Monthly Basic Subscription Plan',
+      price: '₹3599/month',
       features: [
-        '8-12 types of seasonal vegetables',
+        '9-10 types of seasonal vegetables',
         'Bulk quantities for family',
         'Free delivery',
-        'Flexible delivery schedule',
-        'Skip or pause anytime',
-        'Recipe suggestions',
-        'Priority customer support',
-        'Monthly seasonal specials',
+        'Expert nutritionist recipe suggestions',
+        'Daily call confirmation before each order',
+        'Save money on essential groceries',
+        'Enjoy a variety of seasonal vegetables',
+        'Convenient and hassle-free subscription service',
       ],
     },
     {
-      name: 'Monthly Family',
-      price: '$179.99/month',
+      name: 'Weekly Premium Subscription Plan',
+      price: '₹1699/week',
       features: [
-        '10-12 types of seasonal vegetables',
-        'Bulk quantities for family',
+        '9-10 types of seasonal vegetables',
+        '2-3 types of freshly produced fruits',
+        '1 type of seasonal dried vegetable',
         'Free delivery',
-        'Flexible delivery schedule',
-        'Skip or pause anytime',
-        'Recipe suggestions',
+        'Expert nutritionist recipe suggestions/pause anytime',
         'Priority customer support',
+        'Save money on essential groceries',
+        'Enjoy a variety of seasonal vegetables',
+        'Convenient and hassle-free subscription service',
+        'Expert nutritionist-backed recipe suggestions',
         'Monthly seasonal specials',
       ],
     },
@@ -50,11 +53,11 @@ const Subscriptions = () => {
   return (
     <div className="py-12">
       <h2 className="text-3xl font-bold text-center mb-12">Subscription Plans</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
+      <div className="flex flex-row overflow-x-auto snap-x snap-mandatory gap-6 px-4 max-w-6xl mx-auto scrollbar-hide items-start md:grid md:grid-cols-2 md:overflow-visible md:snap-none lg:grid-cols-3">
         {plans.map((plan, index) => (
           <div
             key={index}
-            className={`bg-white p-6 rounded-lg shadow hover:shadow-lg transition-transform duration-300 md:hover:-translate-y-10 ${
+            className={`bg-white p-6 rounded-lg shadow hover:shadow-lg transition-transform duration-300 md:hover:-translate-y-2 flex-shrink-0 w-[80%] snap-center md:w-auto ${
               index === 1 ? 'border-2 border-green-500' : ''
             }`}
           >

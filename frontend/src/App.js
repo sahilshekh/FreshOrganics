@@ -28,12 +28,11 @@ const ProtectedLink = ({ to, children, onClick, ...props }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(true); // Track menu state locally
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const handleClick = (e) => {
     e.preventDefault();
     console.log('ProtectedLink clicked:', { to, user: !!user, isMenuOpen });
-    // Only call onClick (to close menu) if user is authenticated or link is not /cart or /profile
     if (user || (to !== '/cart' && to !== '/profile')) {
       console.log('Calling Header onClick to hide menu');
       if (onClick) onClick(e);
@@ -41,7 +40,6 @@ const ProtectedLink = ({ to, children, onClick, ...props }) => {
     } else {
       console.log('Skipping Header onClick to keep menu open for unauthenticated /cart or /profile');
     }
-    // Handle navigation or popup
     if (!user && (to === '/cart' || to === '/profile')) {
       console.log('Opening LoginSignupPopup for:', to);
       setIsLoginPopupOpen(true);
@@ -54,7 +52,7 @@ const ProtectedLink = ({ to, children, onClick, ...props }) => {
   const handleMenuClose = () => {
     console.log('Closing hamburger menu after login/signup');
     setIsMenuOpen(false);
-    if (onClick) onClick(); // Trigger Header's handleLinkClick to close menu
+    if (onClick) onClick();
   };
 
   return (
@@ -84,7 +82,6 @@ const AppContent = () => {
   const { user } = useContext(AuthContext);
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
 
-  // Show login/signup popup after 30 seconds if not logged in, once per session
   useEffect(() => {
     if (!user && !sessionStorage.getItem('loginPopupShown')) {
       console.log('Setting 30-second timer for popup');
@@ -146,7 +143,7 @@ const AppContent = () => {
         position="top-right"
         toastOptions={{
           style: {
-            background: '#15803d', // bg-green-700
+            background: '#15803d',
             color: '#ffffff',
             borderRadius: '8px',
             padding: '12px',

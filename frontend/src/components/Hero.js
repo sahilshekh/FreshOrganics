@@ -34,12 +34,12 @@ const Hero = ({ onTryForToday, setIsLoginPopupOpen }) => {
                 'Start Subscription'
               )}
             </button>
-            <button className="bg-white text-green-500 px-6 py-[0.7rem] rounded-full hover:bg-gray-200 w-3/4 sm:w-auto mx-auto sm:mx-0">
+            {/* <button className="bg-white text-green-500 px-6 py-[0.7rem] rounded-full hover:bg-gray-200 w-3/4 sm:w-auto mx-auto sm:mx-0">
               Shop Individual Items
-            </button>
+            </button> */}
             <button
               onClick={onTryForToday}
-              className="bg-green-500 text-white px-6 py-[0.7rem] rounded-full hover:bg-green-600 w-3/4 sm:w-auto mx-auto sm:mx-0 flex items-center justify-center"
+              className="bg-white text-green-500  px-6 py-[0.7rem] rounded-full hover:bg-gray-200 w-3/4 sm:w-auto mx-auto sm:mx-0 flex items-center justify-center"
             >
               Try for Today
               <Star className="h-5 w-5 ml-2" />

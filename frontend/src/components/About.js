@@ -31,7 +31,10 @@ const About = () => {
               className="w-full h-60 object-cover rounded-xl shadow-lg"
             />
             <div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-green-900/60 to-transparent">
-              <h1 className="text-2xl font-bold text-white mb-2">Welcome to  <span className="text-green-700">OnlyFams</span> -where your daily dose of farm-fresh goodness . </h1>
+              <h1 className="text-2xl font-bold text-white mb-2">
+                Welcome to <span className="text-green-700">OnlyFams</span> -where your daily dose
+                of farm-fresh goodness.
+              </h1>
               <h2 className="text-3xl font-bold text-white"></h2>
             </div>
           </div>
@@ -45,15 +48,15 @@ const About = () => {
             <div className="md:w-1/2">
               <h2 className="text-3xl font-semibold text-green-700 mb-4">100% Green</h2>
               <p className="text-gray-600 mb-4">
-              We’re a bunch of farm-loving foodies on a mission to make eating
-clean, green, and crazy convenient. Think of us as your produce plug
-– no shady middlemen, just straight-up fresh fruits and veggies from
-local farms, picked with love and delivered daily.
+                We’re a bunch of farm-loving foodies on a mission to make eating clean, green, and
+                crazy convenient. Think of us as your produce plug – no shady middlemen, just
+                straight-up fresh fruits and veggies from local farms, picked with love and delivered
+                daily.
               </p>
               <p className="text-gray-600">
-                We believe in transparency, sustainability, and community. Every box you receive
-                tells a story of hard-working farmers and the land they nurture. Join us in
-                celebrating real food, grown with care.
+                We believe in transparency, sustainability, and community. Every box you receive tells
+                a story of hard-working farmers and the land they nurture. Join us in celebrating real
+                food, grown with care.
               </p>
             </div>
             <div className="md:w-1/2">
@@ -70,14 +73,16 @@ local farms, picked with love and delivered daily.
       {/* Desktop: Our Values Section */}
       <section className="hidden md:block bg-green-50 py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-semibold text-gray-800 text-center mb-8 text-green-700">Our Values</h2>
+          <h2 className="text-3xl font-semibold text-gray-800 text-center mb-8 text-green-700">
+            Our Values
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
               <Leaf className="h-12 w-12 text-green-500 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Organic Excellence</h3>
               <p className="text-gray-600 text-sm">
-                We source only certified organic produce, free from pesticides and GMOs, to ensure
-                the purest quality.
+                We source only certified organic produce, free from pesticides and GMOs, to ensure the
+                purest quality.
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
@@ -105,10 +110,9 @@ local farms, picked with love and delivered daily.
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-4xl font-semibold text-green-700 mb-6">100% GREEN</h2>
           <p className="text-base leading-relaxed text-gray-700">
-          We’re a bunch of farm-loving foodies on a mission to make eating
-clean, green, and crazy convenient. Think of us as your produce plug
-– no shady middlemen, just straight-up fresh fruits and veggies from
-local farms, picked with love and delivered daily.
+            We’re a bunch of farm-loving foodies on a mission to make eating clean, green, and crazy
+            convenient. Think of us as your produce plug – no shady middlemen, just straight-up fresh
+            fruits and veggies from local farms, picked with love and delivered daily.
           </p>
         </div>
       </section>
@@ -118,12 +122,9 @@ local farms, picked with love and delivered daily.
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-semibold text-green-700 mb-6">Our Goal?</h2>
           <p className="text-base leading-relaxed text-gray-700">
-          Want to make eating clean, green, and outrageously
-fresh as easy as scrolling through your feed? No
-middlemen, no mystery, just juicy tomatoes, crunchy
-cucumbers, and leafy greens that didn’t spend 12
-days in a warehouse wondering where they went
-wrong in life…….
+            Want to make eating clean, green, and outrageously fresh as easy as scrolling through your
+            feed? No middlemen, no mystery, just juicy tomatoes, crunchy cucumbers, and leafy greens
+            that didn’t spend 12 days in a warehouse wondering where they went wrong in life……
           </p>
         </div>
       </section>
@@ -132,28 +133,30 @@ wrong in life…….
       <section className="md:hidden bg-white py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-semibold text-green-700 mb-8">Why You’ll Love Us</h2>
-          <div className="space-y-6">
-            <div className="flex items-center justify-center space-x-4">
-              <Sprout className="h-8 mr-16 w-8 text-green-600" />
-              <div className="mr-10">
-                <h3 className="text-lg font-medium">Fresh Daily Deliveries</h3>
+          <div className="space-y-8">
+            <div className="flex flex-col items-center">
+              <Sprout className="h-8 w-8 text-green-600 mb-4" />
+              <div>
+                <h3 className="text-lg font-medium text-gray-800">Fresh Daily Deliveries</h3>
                 <p className="text-sm text-gray-600">Daily deliveries of seriously fresh produce.</p>
               </div>
             </div>
-            <div className="flex items-center justify-center space-x-4">
-              <Users className="h-8 w-8 text-green-600" />
+            <div className="flex flex-col items-center">
+              <Users className="h-8 w-8 text-green-600 mb-4" />
               <div>
-                <h3 className="text-lg font-medium">Local Farmer Partnerships</h3>
-                <p className="text-sm text-gray-600">Sourced straight from local farmers who
-                know their soil.</p>
+                <h3 className="text-lg font-medium text-gray-800">Local Farmer Partnerships</h3>
+                <p className="text-sm text-gray-600">
+                  Sourced straight from local farmers who know their soil.
+                </p>
               </div>
             </div>
-            <div className="flex items-center justify-center space-x-4">
-              <Leaf className="h-8 w-8 text-green-600" />
+            <div className="flex flex-col items-center">
+              <Leaf className="h-8 w-8 text-green-600 mb-4" />
               <div>
-                <h3 className="text-lg font-medium">Sustainable Packaging</h3>
-                <p className="text-sm text-gray-600">Zero-waste packaging (because the planet is
-                  fam too).</p>
+                <h3 className="text-lg font-medium text-gray-800">Sustainable Packaging</h3>
+                <p className="text-sm text-gray-600">
+                  Zero-waste packaging (because the planet is fam too).
+                </p>
               </div>
             </div>
           </div>

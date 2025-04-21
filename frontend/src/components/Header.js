@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Menu, X, Home, Package, User, ShoppingCart } from 'lucide-react';
+import React, { useState, useContext } from 'react';
+import { Menu, X, Home, Package, User, ShoppingCart, Building2 } from 'lucide-react';
+import { CartContext } from './CartContext';
 
 const Header = ({ ProtectedLink }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { cartItemCount } = useContext(CartContext);
 
   // Function to handle link clicks and close the menu
   const handleLinkClick = () => {
@@ -18,13 +20,30 @@ const Header = ({ ProtectedLink }) => {
           <h1 className="text-xl font-bold">FreshOrganics</h1>
         </div>
 
-        {/* Hamburger Button (Visible on Mobile) */}
-        <button
-          className="md:hidden text-white focus:outline-none z-50"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        {/* Right Section: Cart (Mobile) and Hamburger Button */}
+        <div className="flex items-center space-x-4">
+          {/* Cart Link (Visible on Mobile) */}
+          <ProtectedLink
+            to="/cart"
+            className="md:hidden text-white hover:text-green-300 flex items-center navbar-cart relative"
+            onClick={handleLinkClick}
+          >
+            <ShoppingCart className="h-6 w-6" />
+            {cartItemCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                {cartItemCount}
+              </span>
+            )}
+          </ProtectedLink>
+
+          {/* Hamburger Button (Visible on Mobile) */}
+          <button
+            className="md:hidden text-white focus:outline-none z-50"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
 
         {/* Navigation Links */}
         <ul
@@ -58,18 +77,23 @@ const Header = ({ ProtectedLink }) => {
               className="hover:text-green-300 block flex items-center"
               onClick={handleLinkClick}
             >
-              <Package className="h-5 w-5 mr-2 md:hidden" />
+              <Building2 className="h-5 w-5 mr-2 md:hidden" />
               About
             </ProtectedLink>
           </li>
-          <li className="md:mb-0 mb-2">
+          <li className="md:mb-0 mb-2 hidden md:flex">
             <ProtectedLink
               to="/cart"
-              className="hover:text-green-300 block flex items-center"
+              className="hover:text-green-300 block flex items-center relative"
               onClick={handleLinkClick}
             >
               <ShoppingCart className="h-5 w-5 mr-2" />
-              <span className="md:hidden">Cart</span>
+              
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 left-4 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )}
             </ProtectedLink>
           </li>
           <li className="md:mb-0 mb-2">
