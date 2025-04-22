@@ -32,7 +32,7 @@ const About = () => {
             />
             <div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-green-900/80 via-green-900/60 to-transparent">
               <h1 className="text-2xl font-bold text-white mb-2">
-                Welcome to <span className="text-white-700">OnlyFams</span> - where your daily dose
+                Welcome to <span className="text-yellow-500">OnlyFams</span> where your daily dose
                 of farm-fresh goodness.
               </h1>
               <h2 className="text-3xl font-bold text-white"></h2>

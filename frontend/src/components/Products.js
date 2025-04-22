@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Plus } from 'lucide-react';
 import { CartContext } from './CartContext';
 
 const Products = () => {
@@ -35,22 +35,34 @@ const Products = () => {
   return (
     <div className="py-12">
       <h2 className="text-3xl font-bold text-center mb-12">Individual Products</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto px-4 relative">
+      <div className="flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 px-4 max-w-6xl mx-auto scrollbar-hide md:grid md:grid-cols-2 md:overflow-visible md:snap-none lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
         {products.map((product, index) => (
           <div
             key={index}
-            className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition lg:after:content-[''] lg:after:absolute lg:after:right-[-12px] lg:after:top-0 lg:after:h-full"
+            className="bg-white p-2 rounded-lg shadow flex-shrink-0 w-[40%] md:w-auto snap-center md:p-4"
           >
-            <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded" />
-            <h3 className="text-lg font-semibold mt-2">{product.name}</h3>
-            <p className="text-gray-600 mt-1">${product.price.toFixed(2)}/lb</p>
-            <button
-              onClick={() => addToCart(product)}
-              className="bg-green-500 text-white px-4 py-2 mt-2 rounded hover:bg-green-600 flex items-center justify-center w-full"
-            >
-              <ShoppingCart className="h-6 w-6 mr-2" />
-              Add to Cart
-            </button>
+            <img src={product.image} alt={product.name} className="w-full h-32 md:h-48 object-cover rounded" />
+            <h3 className="text-sm md:text-lg font-semibold mt-2 text-center">{product.name}</h3>
+            <p className="text-gray-600 mt-1 text-center">${product.price.toFixed(2)}/lb</p>
+            <div className="flex justify-center">
+              <div className="md:hidden">
+                <button
+                  onClick={() => addToCart(product)}
+                  className="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 flex items-center justify-center mt-2 w-8 h-8"
+                >
+                  <Plus className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="hidden md:block">
+                <button
+                  onClick={() => addToCart(product)}
+                  className="bg-green-500 text-white px-4 py-2 mt-2 rounded hover:bg-green-600 flex items-center justify-center w-full"
+                >
+                  <ShoppingCart className="h-6 w-6 mr-2" />
+                  Add to Cart
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>

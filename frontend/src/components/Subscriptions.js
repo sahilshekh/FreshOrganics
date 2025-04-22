@@ -1,7 +1,12 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import Footer from './Footer';
 
 const Subscriptions = () => {
+  const location = useLocation();
+  const showFooter = location.pathname === '/subscriptions';
+
   const plans = [
     {
       name: 'Weekly Basic Subscription Plan',
@@ -57,6 +62,7 @@ const Subscriptions = () => {
   ];
 
   return (
+    <>
     <div className="py-12">
       <h2 className="text-3xl font-bold text-center mb-12">Subscription Plans</h2>
       <div className="flex flex-row overflow-x-auto snap-x snap-mandatory gap-6 px-4 max-w-6xl mx-auto scrollbar-hide items-start md:grid md:grid-cols-2 md:overflow-visible md:snap-none lg:grid-cols-3">
@@ -88,6 +94,8 @@ const Subscriptions = () => {
         ))}
       </div>
     </div>
+      {showFooter && <Footer />}
+      </>
   );
 };
 
