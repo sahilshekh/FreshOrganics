@@ -15,6 +15,9 @@ const Subscriptions = () => {
         'Save money on essential groceries',
         'Enjoy a variety of seasonal vegetables',
         'Convenient and hassle-free subscription service',
+        { text: 'Priority customer support', crossed: true },
+        { text: 'Expert nutritionist-backed recipe suggestions', crossed: true },
+        { text: 'Monthly seasonal specials', crossed: true },
       ],
     },
     {
@@ -29,6 +32,9 @@ const Subscriptions = () => {
         'Save money on essential groceries',
         'Enjoy a variety of seasonal vegetables',
         'Convenient and hassle-free subscription service',
+        { text: 'Priority customer support', crossed: true },
+        { text: 'Expert nutritionist-backed recipe suggestions', crossed: true },
+        { text: 'Monthly seasonal specials', crossed: true },
       ],
     },
     {
@@ -66,7 +72,12 @@ const Subscriptions = () => {
             <ul className="mt-4 space-y-2 text-sm">
               {plan.features.map((feature, i) => (
                 <li key={i} className="flex items-center">
-                  <Check className="text-green-500 mr-2 h-5 w-5" /> {feature}
+                  {typeof feature === 'string' ? (
+                    <Check className="text-green-500 mr-2 h-5 w-5" />
+                  ) : feature.crossed ? (
+                    <span className="text-red-500 mr-2">❌</span>
+                  ) : null}
+                  {typeof feature === 'string' ? feature : feature.text}
                 </li>
               ))}
             </ul>

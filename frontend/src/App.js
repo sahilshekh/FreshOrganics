@@ -143,7 +143,7 @@ const AppContent = () => {
         position="top-right"
         toastOptions={{
           style: {
-            background: '#15803d',
+            background: '#cfc23a',
             color: '#ffffff',
             borderRadius: '8px',
             padding: '12px',
