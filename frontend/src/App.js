@@ -11,10 +11,8 @@ import About from './components/About';
 import Profile from './components/Profile';
 import Subscriptions from './components/Subscriptions';
 import LoginSignupPopup from './components/LoginSignupPopup';
-
-// Placeholder components for new routes
-const EditProfile = () => <div>Edit Profile Page</div>;
-const OrderHistory = () => <div>Order History Page</div>;
+import MangoVarieties from './components/MangoVarieties';
+import MangoBanner from './components/MangoCampaign';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -99,6 +97,7 @@ const AppContent = () => {
 
   return (
     <>
+      <MangoBanner />
       <Header ProtectedLink={ProtectedLink} />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -128,8 +127,9 @@ const AppContent = () => {
           }
         />
         <Route path="/subscriptions" element={<Subscriptions />} />
-        <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/order-history" element={<OrderHistory />} />
+        <Route path="/mango-varieties" element={<MangoVarieties />} />
+        {/* <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/order-history" element={<OrderHistory />} /> */}
       </Routes>
       <LoginSignupPopup
         isOpen={isLoginPopupOpen}
