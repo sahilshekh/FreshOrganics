@@ -45,7 +45,7 @@ function Home() {
       <Timeline />
       <Subscriptions />
       <Products />
-      <Footer />
+      {/* <Footer /> */}
       <TryForTodayPopup
         isOpen={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}

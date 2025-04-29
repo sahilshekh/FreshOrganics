@@ -1,5 +1,6 @@
 import React from 'react';
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -28,7 +29,7 @@ const Footer = () => {
                 <Twitter className="h-5 w-5" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/only_fams.in/profilecard/?igsh=ZW5kdDkxMGpuMnNl"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-300"
@@ -45,13 +46,13 @@ const Footer = () => {
               <li className="flex items-center justify-center">
                 <Mail className="h-4 w-4 mr-2" />
                 <a href="mailto:support@freshorganics.com" className="hover:underline text-xs">
-                  support@freshorganics.com
+                  support@onlyfarms.com
                 </a>
               </li>
               <li className="flex items-center justify-center">
                 <Phone className="h-4 w-4 mr-2" />
-                <a href="tel:+1234567890" className="hover:underline text-xs">
-                  +1 (234) 567-890
+                <a href="tel:+91-9637447770" className="hover:underline text-xs">
+                +91-9637447770
                 </a>
               </li>
               <li className="flex items-center justify-center">
@@ -60,6 +61,19 @@ const Footer = () => {
               </li>
             </ul>
           </div>
+
+          {/* Policy Links (Mobile) */}
+          <div className="flex flex-col items-center">
+            <h4 className="text-base font-semibold mb-3">Policies</h4>
+            <div className="flex space-x-4">
+              <Link to="/privacy-policy" className="text-xs hover:underline">
+                Privacy Policy
+              </Link>
+              {/* <Link to="/terms-of-service" className="text-xs hover:underline">
+                Terms of Service
+              </Link> */}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -67,9 +81,17 @@ const Footer = () => {
       <div className="hidden sm:grid max-w-6xl mx-auto px-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {/* Branding */}
         <div className="text-center sm:text-left">
-          <h3 className="text-xl font-bold mb-3">FreshOrganics</h3>
+          <h3 className="text-xl font-bold mb-3">OnlyFarms</h3>
           <p className="text-xs">Delivering fresh, organic produce straight to your door.</p>
-          <p className="text-xs mt-1">© 2025 FreshOrganics. All rights reserved.</p>
+          <p className="text-xs mt-1">© 2025 OnlyFarms. All rights reserved.</p>
+          <div className="mt-3 flex space-x-4 justify-center sm:justify-start">
+            <Link to="/privacy-policy" className="text-xs hover:underline">
+              Privacy Policy
+            </Link>
+            {/* <Link to="/terms-of-service" className="text-xs hover:underline">
+              Terms of Service
+            </Link> */}
+          </div>
         </div>
 
         {/* Social Media */}
@@ -93,7 +115,7 @@ const Footer = () => {
               <Twitter className="h-5 w-5" />
             </a>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/only_fams.in/profilecard/?igsh=ZW5kdDkxMGpuMnNl"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-300"
@@ -109,14 +131,14 @@ const Footer = () => {
           <ul className="space-y-2">
             <li className="flex items-center justify-center md:justify-end">
               <Mail className="h-4 w-4 mr-2" />
-              <a href="mailto:support@freshorganics.com" className="hover:underline text-xs">
-                support@freshorganics.com
+              <a href="mailto:support@OnlyFaems.com" className="hover:underline text-xs">
+                support@onlyfarms.com
               </a>
             </li>
             <li className="flex items-center justify-center md:justify-end">
               <Phone className="h-4 w-4 mr-2" />
-              <a href="tel:+1234567890" className="hover:underline text-xs">
-                +1 (234) 567-890
+              <a href="tel:+91-9637447770" className="hover:underline text-xs">
+              +91-9637447770
               </a>
             </li>
             <li className="flex items-center justify-center md:justify-end">

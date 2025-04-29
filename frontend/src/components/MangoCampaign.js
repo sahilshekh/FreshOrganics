@@ -63,7 +63,7 @@ const MangoBanner = () => {
   }
 
   return (
-    <div className="bg-orange-500 text-white p-3 sm:p-4 md:p-5 flex flex-col sm:flex-row items-center justify-between w-full rounded-lg shadow-md">
+    <div className="bg-orange-500 text-white p-3 sm:p-4 md:p-5 flex flex-col sm:flex-row items-center justify-between w-full  shadow-md">
       {/* Left Section: Emoji and Text */}
       <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto">
         <span className="text-3xl sm:text-4xl md:text-5xl flex-shrink-0">🍋</span>
@@ -90,7 +90,7 @@ const MangoBanner = () => {
         <span className="text-sm sm:text-base">Fresh Mangoes Included!</span>
         <button
           onClick={handleBuyNow}
-          className="bg-yellow-400 text-black px-3 sm:px-4 md:px-5 py-1 sm:py-2 rounded-lg text-sm sm:text-base font-semibold hover:bg-yellow-500 transition-colors"
+          className="bg-yellow-400 text-black px-3 sm:px-4 md:px-5 py-1 sm:py-2  text-sm sm:text-base font-semibold hover:bg-yellow-500 transition-colors"
         >
           BUY NOW
         </button>

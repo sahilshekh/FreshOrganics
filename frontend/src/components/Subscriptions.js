@@ -94,7 +94,7 @@ const Subscriptions = () => {
         ))}
       </div>
     </div>
-      {showFooter && <Footer />}
+      {/* {showFooter && <Footer />} */}
       </>
   );
 };

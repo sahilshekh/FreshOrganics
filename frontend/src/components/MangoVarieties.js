@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import Footer from './Footer';
 
 const MangoVarieties = () => {
   console.log('MangoVarieties rendering');
@@ -73,6 +74,7 @@ const MangoVarieties = () => {
           );
         })}
       </div>
+
     </div>
   );
 };

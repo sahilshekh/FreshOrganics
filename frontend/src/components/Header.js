@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Menu, X, Home, Package, User, ShoppingCart, Building2 } from 'lucide-react';
 import { CartContext } from './CartContext';
+import logoImage from "./images/headerLogo.png";
 
 const Header = ({ ProtectedLink }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,8 +17,8 @@ const Header = ({ ProtectedLink }) => {
       <div className="flex justify-between items-center max-w-6xl mx-auto">
         {/* Logo Section */}
         <div className="flex items-center">
-          <span className="text-xl mr-2">🍃</span>
-          <h1 className="text-xl font-bold">FreshOrganics</h1>
+          <img src={logoImage} className="w-8 h-8 sm:w-10 sm:h-10 " alt="FreshOrganics Logo" />
+          <h1 className="text-xl font-bold">OnlyFarms</h1>
         </div>
 
         {/* Right Section: Cart (Mobile) and Hamburger Button */}
@@ -88,7 +89,6 @@ const Header = ({ ProtectedLink }) => {
               onClick={handleLinkClick}
             >
               <ShoppingCart className="h-5 w-5 mr-2" />
-              
               {cartItemCount > 0 && (
                 <span className="absolute -top-2 left-4 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {cartItemCount}
