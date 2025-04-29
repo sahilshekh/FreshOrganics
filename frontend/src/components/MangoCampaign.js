@@ -63,15 +63,19 @@ const MangoBanner = () => {
   }
 
   return (
-    <div className="bg-orange-500 text-white p-2 flex items-center justify-between md:flex-row flex-col">
-      <div className="flex items-center space-x-2 md:space-x-4">
-        <span className="text-2xl md:text-3xl">🍋</span>
-        <div>
-          <h3 className="text-sm md:text-base font-bold">Fresh Mangoes Available Now</h3>
-          <p className="text-xs md:text-sm">Malinco, Java, Gasnel</p>
+    <div className="bg-orange-500 text-white p-3 sm:p-4 md:p-5 flex flex-col sm:flex-row items-center justify-between w-full rounded-lg shadow-md">
+      {/* Left Section: Emoji and Text */}
+      <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto">
+        <span className="text-3xl sm:text-4xl md:text-5xl flex-shrink-0">🍋</span>
+        <div className="flex-1">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold leading-tight">
+            Fresh Mangoes Available Now
+          </h3>
+          <p className="text-sm sm:text-base text-gray-100">Malinco, Java, Gasnel</p>
         </div>
       </div>
-      <div className="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm">
+      {/* Center Section: Timer (Hidden on Mobile) */}
+      <div className="hidden sm:flex items-center space-x-2 text-sm sm:text-base md:text-lg my-2 sm:my-0">
         <span>{String(timeLeft.days).padStart(2, '0')}</span>
         <span>:</span>
         <span>{String(timeLeft.hours).padStart(2, '0')}</span>
@@ -79,20 +83,21 @@ const MangoBanner = () => {
         <span>{String(timeLeft.minutes).padStart(2, '0')}</span>
         <span>:</span>
         <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
-        <span className="hidden md:inline">DAYS HOURS MINS SECS</span>
+        <span className="hidden md:inline text-xs md:text-sm"> DAYS HOURS MINS SECS</span>
       </div>
-      <div className="flex items-center space-x-2">
-        <span className="text-xs md:text-sm">Fresh Mangoes Included!</span>
+      {/* Right Section: Text, Button, and Close */}
+      <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto justify-between sm:justify-end">
+        <span className="text-sm sm:text-base">Fresh Mangoes Included!</span>
         <button
           onClick={handleBuyNow}
-          className="bg-yellow-400 text-black px-2 py-1 md:px-4 md:py-2 rounded text-xs md:text-sm hover:bg-yellow-500"
+          className="bg-yellow-400 text-black px-3 sm:px-4 md:px-5 py-1 sm:py-2 rounded-lg text-sm sm:text-base font-semibold hover:bg-yellow-500 transition-colors"
         >
           BUY NOW
         </button>
+        <button onClick={handleClose} className="text-white hover:text-gray-300 flex-shrink-0">
+          <X size={20} />
+        </button>
       </div>
-      <button onClick={handleClose} className="text-white hover:text-gray-300 ml-2">
-        <X size={20} />
-      </button>
     </div>
   );
 };
