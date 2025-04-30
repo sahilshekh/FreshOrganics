@@ -3,34 +3,51 @@ import { Link } from 'react-router-dom';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { CartContext } from './CartContext';
 import Footer from './Footer';
+import { db } from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { useAuth } from './AuthContext';
 
 const Cart = () => {
   const { cartItems, setCartItems } = useContext(CartContext);
+  const { user } = useAuth();
 
   // Calculate total price
   const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
 
+  // Save cart to Firestore
+  const saveCart = async (updatedItems) => {
+    if (!user) return;
+    try {
+      const cartRef = doc(db, 'carts', user.uid);
+      await setDoc(cartRef, { items: updatedItems }, { merge: true });
+    } catch (error) {
+      console.error('Error saving cart:', error);
+    }
+  };
+
   // Handle quantity increase
-  const increaseQuantity = (id) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
+  const increaseQuantity = async (id) => {
+    const updatedItems = cartItems.map((item) =>
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
     );
+    setCartItems(updatedItems);
+    await saveCart(updatedItems);
   };
 
   // Handle quantity decrease
-  const decreaseQuantity = (id) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
-      )
+  const decreaseQuantity = async (id) => {
+    const updatedItems = cartItems.map((item) =>
+      item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
     );
+    setCartItems(updatedItems);
+    await saveCart(updatedItems);
   };
 
   // Handle item removal
-  const removeItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+  const removeItem = async (id) => {
+    const updatedItems = cartItems.filter((item) => item.id !== id);
+    setCartItems(updatedItems);
+    await saveCart(updatedItems);
   };
 
   return (

@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CreditCard, Truck, ArrowRight, CheckCircle } from 'lucide-react';
 import Footer from './Footer';
-
-// Mock cart data
-const initialCartItems = [
-  { id: 1, name: 'Organic Tomatoes', price: 4.99, quantity: 2, image: 'https://images.unsplash.com/photo-1607305387299-a3d9611cd469' },
-  { id: 2, name: 'Organic Cucumbers', price: 2.99, quantity: 3, image: 'https://nativeindianorganics.com/wp-content/uploads/2022/09/cucumber-seeds-online-india.jpg' },
-  
-];
+import { CartContext } from './CartContext';
+import { db } from '../firebase';
+import { doc, setDoc, collection, addDoc } from 'firebase/firestore';
+import { useAuth } from './AuthContext';
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const { cartItems, setCartItems } = useContext(CartContext);
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     fullName: '',
     address: '',
@@ -25,7 +24,7 @@ const Checkout = () => {
   const [errors, setErrors] = useState({});
 
   // Calculate total price
-  const totalPrice = initialCartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -48,13 +47,43 @@ const Checkout = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validateForm();
     if (Object.keys(formErrors).length === 0) {
-      // Simulate successful order placement
-      alert('Order placed successfully!');
-      navigate('/order-confirmation');
+      if (!user) {
+        alert('Please log in to place an order.');
+        return;
+      }
+      try {
+        // Save order to Firestore
+        const orderRef = collection(db, 'orders');
+        await addDoc(orderRef, {
+          userId: user.uid,
+          items: cartItems,
+          total: parseFloat(totalPrice),
+          shipping: {
+            fullName: formData.fullName,
+            address: formData.address,
+            city: formData.city,
+            postalCode: formData.postalCode,
+            phone: formData.phone,
+          },
+          createdAt: new Date(),
+          status: 'pending',
+        });
+
+        // Clear the cart in Firestore
+        const cartRef = doc(db, 'carts', user.uid);
+        await setDoc(cartRef, { items: [] }, { merge: true });
+        setCartItems([]);
+
+        alert('Order placed successfully!');
+        navigate('/order-confirmation');
+      } catch (error) {
+        console.error('Error placing order:', error);
+        alert('Failed to place order. Please try again.');
+      }
     } else {
       setErrors(formErrors);
     }
@@ -224,7 +253,7 @@ const Checkout = () => {
             {/* Order Summary */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-2xl font-semibold text-green-700 mb-6">Order Summary</h2>
-              {initialCartItems.map((item) => (
+              {cartItems.map((item) => (
                 <div key={item.id} className="flex items-center mb-4">
                   <img
                     src={item.image}

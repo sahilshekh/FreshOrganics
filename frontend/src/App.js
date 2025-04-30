@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate ,useLocation} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { CartProvider } from './components/CartContext';
 import { AuthProvider, AuthContext } from './components/AuthContext';
 import { Toaster } from 'react-hot-toast';
@@ -14,8 +14,7 @@ import Subscriptions from './components/Subscriptions';
 import LoginSignupPopup from './components/LoginSignupPopup';
 import MangoVarieties from './components/MangoVarieties';
 import MangoBanner from './components/MangoCampaign';
-
-
+import { auth } from './firebase'; // Import Firebase auth
 
 // Privacy Policy Component
 const PrivacyPolicy = () => (
@@ -89,7 +88,6 @@ const PrivacyPolicy = () => (
   </div>
 );
 
-
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
@@ -102,7 +100,7 @@ const ProtectedLink = ({ to, children, onClick, ...props }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -207,9 +205,6 @@ const AppContent = () => {
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/mango-varieties" element={<MangoVarieties />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        {/* <Route path="/terms-of-service" element={<TermsOfService />} /> */}
-        {/* <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/order-history" element={<OrderHistory />} /> */}
       </Routes>
       <LoginSignupPopup
         isOpen={isLoginPopupOpen}
@@ -233,9 +228,8 @@ const AppContent = () => {
             duration: 3000,
           },
         }}
-        
       />
-     {!hideFooterOnAbout && <Footer />}
+      {!hideFooterOnAbout && <Footer />}
     </>
   );
 };

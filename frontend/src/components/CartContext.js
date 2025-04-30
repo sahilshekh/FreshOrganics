@@ -1,54 +1,102 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { db } from '../firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { useAuth } from './AuthContext';
 import toast from 'react-hot-toast';
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState(() => {
-    // Load cart from local storage for persistence across sessions
-    const savedCart = localStorage.getItem('cartItems');
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
+  const { user } = useAuth();
+  const [cartItems, setCartItems] = useState([]);
 
-  // Save cart to local storage whenever it changes
   useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (user) {
+      fetchCart();
+    } else {
+      setCartItems([]);
+    }
+  }, [user]);
 
-  // Add a single product to the cart
-  const addToCart = (product) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevItems.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
-      return [...prevItems, { ...product, quantity: 1 }];
-    });
-    toast.success(`${product.name} added to cart!`);
+  const fetchCart = async () => {
+    if (!user) return;
+    try {
+      const cartRef = doc(db, 'carts', user.uid);
+      const cartDoc = await getDoc(cartRef);
+      setCartItems(cartDoc.exists() ? cartDoc.data().items || [] : []);
+    } catch (error) {
+      console.error('Error fetching cart:', error.message);
+    }
   };
 
-  // Add multiple products (e.g., bundle) to the cart
-  const addBundleToCart = (products) => {
-    setCartItems((prevItems) => {
-      let updatedItems = [...prevItems];
+  const addToCart = async (product) => {
+    if (!user) {
+      toast.error('Please log in to add items to cart');
+      return;
+    }
+    try {
+      const cartRef = doc(db, 'carts', user.uid);
+      const cartDoc = await getDoc(cartRef);
+      let items = cartDoc.exists() ? cartDoc.data().items || [] : [];
+
+      const existingItem = items.find((item) => item.id === product.id);
+      if (existingItem) {
+        items = items.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        items.push({ ...product, quantity: 1 });
+      }
+
+      await setDoc(cartRef, { items }, { merge: true });
+      setCartItems(items);
+      console.log('Product added successfully, showing toast:', product.name);
+      toast.success(`${product.name} added to cart!`);
+    } catch (error) {
+      console.error('Error adding to cart:', error.message);
+      if (navigator.onLine) {
+        toast.error('Failed to add item to cart due to a server issue');
+      } else {
+        toast.error('You are offline. Item will be added when online.');
+      }
+    }
+  };
+
+  const addBundleToCart = async (products) => {
+    if (!user) {
+      toast.error('Please log in to add items to cart');
+      return;
+    }
+    try {
+      const cartRef = doc(db, 'carts', user.uid);
+      const cartDoc = await getDoc(cartRef);
+      let items = cartDoc.exists() ? cartDoc.data().items || [] : [];
+
       products.forEach((product) => {
-        const existingItem = updatedItems.find((item) => item.id === product.id);
+        const existingItem = items.find((item) => item.id === product.id);
         if (existingItem) {
-          updatedItems = updatedItems.map((item) =>
+          items = items.map((item) =>
             item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
           );
         } else {
-          updatedItems.push({ ...product, quantity: 1 });
+          items.push({ ...product, quantity: 1 });
         }
       });
-      return updatedItems;
-    });
-    toast.success('Bundle added to cart!');
+
+      await setDoc(cartRef, { items }, { merge: true });
+      setCartItems(items);
+      console.log('Bundle added successfully, showing toast');
+      toast.success('Bundle added to cart!');
+    } catch (error) {
+      console.error('Error adding bundle to cart:', error.message);
+      if (navigator.onLine) {
+        toast.error('Failed to add bundle to cart due to a server issue');
+      } else {
+        toast.error('You are offline. Bundle will be added when online.');
+      }
+    }
   };
 
-  // Calculate total item count (sum of quantities)
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (

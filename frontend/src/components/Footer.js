@@ -52,7 +52,7 @@ const Footer = () => {
               <li className="flex items-center justify-center">
                 <Phone className="h-4 w-4 mr-2" />
                 <a href="tel:+91-9637447770" className="hover:underline text-xs">
-                +91-9637447770
+                  +91-9637447770
                 </a>
               </li>
               <li className="flex items-center justify-center">
@@ -69,9 +69,6 @@ const Footer = () => {
               <Link to="/privacy-policy" className="text-xs hover:underline">
                 Privacy Policy
               </Link>
-              {/* <Link to="/terms-of-service" className="text-xs hover:underline">
-                Terms of Service
-              </Link> */}
             </div>
           </div>
         </div>
@@ -88,9 +85,6 @@ const Footer = () => {
             <Link to="/privacy-policy" className="text-xs hover:underline">
               Privacy Policy
             </Link>
-            {/* <Link to="/terms-of-service" className="text-xs hover:underline">
-              Terms of Service
-            </Link> */}
           </div>
         </div>
 
@@ -138,7 +132,7 @@ const Footer = () => {
             <li className="flex items-center justify-center md:justify-end">
               <Phone className="h-4 w-4 mr-2" />
               <a href="tel:+91-9637447770" className="hover:underline text-xs">
-              +91-9637447770
+                +91-9637447770
               </a>
             </li>
             <li className="flex items-center justify-center md:justify-end">

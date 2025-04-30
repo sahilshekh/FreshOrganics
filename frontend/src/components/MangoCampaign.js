@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const MangoBanner = () => {
-  console.log('MangoBanner rendering');
+  // console.log('MangoBanner rendering');
   const [isVisible, setIsVisible] = useState(true);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,

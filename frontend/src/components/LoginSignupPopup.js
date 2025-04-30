@@ -2,36 +2,52 @@ import React, { useState, useContext } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from './AuthContext';
 
-const LoginSignupPopup = ({ isOpen, onClose }) => {
+const LoginSignupPopup = ({ isOpen, onClose, onMenuClose }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { login, signup } = useContext(AuthContext);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     console.log('Form submitted:', { isLogin, name, email, password });
-    if (isLogin) {
-      if (login(email, password)) {
-        toast.success('Logged in successfully!');
-        onClose();
+
+    try {
+      if (isLogin) {
+        const success = await login(email, password);
+        if (success) {
+          toast.success('Logged in successfully!');
+          setName('');
+          setEmail('');
+          setPassword('');
+          if (onMenuClose) onMenuClose(); // Close hamburger menu if onMenuClose is provided
+          onClose();
+        } else {
+          toast.error('Invalid email or password');
+        }
       } else {
-        toast.error('Invalid email or password');
+        const success = await signup(name, email, password);
+        if (success) {
+          toast.success('Signed up successfully!');
+          setName('');
+          setEmail('');
+          setPassword('');
+          if (onMenuClose) onMenuClose(); // Close hamburger menu if onMenuClose is provided
+          onClose();
+        } else {
+          toast.error('Email already exists or signup failed');
+        }
       }
-    } else {
-      if (signup(name, email, password)) {
-        toast.success('Signed up successfully!');
-        onClose();
-      } else {
-        toast.error('Email already exists');
-      }
+    } catch (error) {
+      toast.error(error.message || 'An error occurred');
+    } finally {
+      setIsLoading(false);
     }
-    setName('');
-    setEmail('');
-    setPassword('');
   };
 
   const handleNameChange = (e) => {
@@ -94,6 +110,7 @@ const LoginSignupPopup = ({ isOpen, onClose }) => {
                 className="w-full p-3 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Enter your name"
                 required
+                disabled={isLoading}
               />
             </div>
           )}
@@ -109,6 +126,7 @@ const LoginSignupPopup = ({ isOpen, onClose }) => {
               className="w-full text-gray-700 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               placeholder="Enter your email"
               required
+              disabled={isLoading}
             />
           </div>
           <div className="mb-6">
@@ -123,13 +141,17 @@ const LoginSignupPopup = ({ isOpen, onClose }) => {
               className="w-full text-gray-700 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               placeholder="Enter your password"
               required
+              disabled={isLoading}
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-green-700 text-white p-3 rounded-lg font-medium hover:bg-green-600 transition-colors duration-300"
+            className={`w-full bg-green-700 text-white p-3 rounded-lg font-medium hover:bg-green-600 transition-colors duration-300 ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            disabled={isLoading}
           >
-            {isLogin ? 'Login' : 'Sign Up'}
+            {isLoading ? 'Processing...' : isLogin ? 'Login' : 'Sign Up'}
           </button>
         </form>
         <p className="mt-4 text-center text-gray-600">
@@ -137,6 +159,7 @@ const LoginSignupPopup = ({ isOpen, onClose }) => {
           <button
             onClick={() => setIsLogin(!isLogin)}
             className="text-green-700 hover:underline font-medium"
+            disabled={isLoading}
           >
             {isLogin ? 'Sign Up' : 'Login'}
           </button>

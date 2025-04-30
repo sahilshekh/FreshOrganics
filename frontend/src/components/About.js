@@ -7,7 +7,7 @@ const About = () => {
     <div className="bg-gray-50 min-h-screen font-sans text-gray-800">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="max-w-7xl mx-auto  py-16 text-center">
+        <div className="max-w-7xl mx-auto py-16 text-center">
           {/* Desktop Hero */}
           <div className="hidden md:block">
             <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">
@@ -28,7 +28,7 @@ const About = () => {
             <img
               src="https://i.ibb.co/5xKnX0SR/comesoon.png"
               alt="Farm fresh produce"
-              className="w-full h-auto min-h-[30vh]  shadow-lg"
+              className="w-full h-auto min-h-[30vh] shadow-lg"
             />
             <div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-green-900/80 via-green-900/60 to-transparent">
               <h1 className="text-2xl font-bold text-white mb-2">
