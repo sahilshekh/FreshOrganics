@@ -6,11 +6,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const serviceAccount = require('./serviceAccountKey.json');
+// const serviceAccount = require('./serviceAccountKey.json');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://onlyfams-5fec4.firebaseio.com'
+  // credential: admin.credential.cert(serviceAccount),
+  // databaseURL: 'https://onlyfams-5fec4.firebaseio.com'
 });
 
 const db = admin.firestore();
