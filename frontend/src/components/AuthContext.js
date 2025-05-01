@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase'; // Ensure firebase.js is in the src directory
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
+import { auth, db } from '../firebase'; // Ensure db (Firestore) is exported from firebase.js
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 export const AuthContext = createContext();
 
@@ -14,7 +15,7 @@ export const AuthProvider = ({ children }) => {
         setUser({
           uid: firebaseUser.uid,
           email: firebaseUser.email,
-          name: firebaseUser.displayName || 'User', // Use displayName if available
+          name: firebaseUser.displayName || 'User',
         });
       } else {
         setUser(null);
@@ -23,12 +24,23 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  // Signup function
-  const signup = async (name, email, password) => {
+  // Signup function with address
+  const signup = async (name, email, password, address) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      // Update the user's displayName with the provided name
-      await updateProfile(userCredential.user, { displayName: name });
+      const user = userCredential.user;
+
+      // Update the user's displayName
+      await updateProfile(user, { displayName: name });
+
+      // Store additional user data (address) in Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        name,
+        email,
+        address,
+        createdAt: new Date().toISOString(),
+      });
+
       return true;
     } catch (error) {
       console.error('Signup error:', error.message);
@@ -47,6 +59,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Forgot Password function
+  const resetPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      return true;
+    } catch (error) {
+      console.error('Password reset error:', error.message);
+      return false;
+    }
+  };
+
   // Logout function
   const logout = async () => {
     try {
@@ -57,7 +80,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, login, signup, logout, resetPassword }}>
       {children}
     </AuthContext.Provider>
   );

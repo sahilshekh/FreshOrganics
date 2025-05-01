@@ -7,15 +7,16 @@ const LoginSignupPopup = ({ isOpen, onClose, onMenuClose }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [address, setAddress] = useState(''); // New state for address
   const [isLoading, setIsLoading] = useState(false);
-  const { login, signup } = useContext(AuthContext);
+  const { login, signup, resetPassword } = useContext(AuthContext);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log('Form submitted:', { isLogin, name, email, password });
+    console.log('Form submitted:', { isLogin, name, email, password, address });
 
     try {
       if (isLogin) {
@@ -25,23 +26,45 @@ const LoginSignupPopup = ({ isOpen, onClose, onMenuClose }) => {
           setName('');
           setEmail('');
           setPassword('');
-          if (onMenuClose) onMenuClose(); // Close hamburger menu if onMenuClose is provided
+          setAddress('');
+          if (onMenuClose) onMenuClose();
           onClose();
         } else {
           toast.error('Invalid email or password');
         }
       } else {
-        const success = await signup(name, email, password);
+        const success = await signup(name, email, password, address);
         if (success) {
           toast.success('Signed up successfully!');
           setName('');
           setEmail('');
           setPassword('');
-          if (onMenuClose) onMenuClose(); // Close hamburger menu if onMenuClose is provided
+          setAddress('');
+          if (onMenuClose) onMenuClose();
           onClose();
         } else {
           toast.error('Email already exists or signup failed');
         }
+      }
+    } catch (error) {
+      toast.error(error.message || 'An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      toast.error('Please enter your email to reset your password');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const success = await resetPassword(email);
+      if (success) {
+        toast.success('Password reset email sent! Check your inbox.');
+      } else {
+        toast.error('Failed to send password reset email');
       }
     } catch (error) {
       toast.error(error.message || 'An error occurred');
@@ -63,6 +86,11 @@ const LoginSignupPopup = ({ isOpen, onClose, onMenuClose }) => {
   const handlePasswordChange = (e) => {
     console.log('Password input:', e.target.value);
     setPassword(e.target.value);
+  };
+
+  const handleAddressChange = (e) => {
+    console.log('Address input:', e.target.value);
+    setAddress(e.target.value);
   };
 
   return (
@@ -98,21 +126,38 @@ const LoginSignupPopup = ({ isOpen, onClose, onMenuClose }) => {
         </h2>
         <form onSubmit={handleSubmit}>
           {!isLogin && (
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={handleNameChange}
-                className="w-full p-3 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                placeholder="Enter your name"
-                required
-                disabled={isLoading}
-              />
-            </div>
+            <>
+              <div className="mb-4">
+                <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={handleNameChange}
+                  className="w-full p-3 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  placeholder="Enter your name"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="address" className="block text-gray-700 font-medium mb-2">
+                  Address
+                </label>
+                <textarea
+                  id="address"
+                  value={address}
+                  onChange={handleAddressChange}
+                  className="w-full p-3 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  placeholder="Enter your address"
+                  required
+                  disabled={isLoading}
+                  rows="3"
+                />
+              </div>
+            </>
           )}
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
@@ -144,6 +189,18 @@ const LoginSignupPopup = ({ isOpen, onClose, onMenuClose }) => {
               disabled={isLoading}
             />
           </div>
+          {isLogin && (
+            <div className="mb-4 text-center">
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                className="text-green-700 hover:underline font-medium"
+                disabled={isLoading}
+              >
+                Forgot Password?
+              </button>
+            </div>
+          )}
           <button
             type="submit"
             className={`w-full bg-green-700 text-white p-3 rounded-lg font-medium hover:bg-green-600 transition-colors duration-300 ${

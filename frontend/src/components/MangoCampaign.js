@@ -69,22 +69,14 @@ const MangoBanner = () => {
         <span className="text-3xl sm:text-4xl md:text-5xl flex-shrink-0">🍋</span>
         <div className="flex-1">
           <h3 className="text-base sm:text-lg md:text-xl font-bold leading-tight">
-            Fresh Mangoes Available Now
+            Fresh Organic Mangoes Available Now
+              
           </h3>
           <p className="text-sm sm:text-base text-gray-100">Malinco, Java, Gasnel</p>
         </div>
       </div>
       {/* Center Section: Timer (Hidden on Mobile) */}
-      <div className="hidden sm:flex items-center space-x-2 text-sm sm:text-base md:text-lg my-2 sm:my-0">
-        <span>{String(timeLeft.days).padStart(2, '0')}</span>
-        <span>:</span>
-        <span>{String(timeLeft.hours).padStart(2, '0')}</span>
-        <span>:</span>
-        <span>{String(timeLeft.minutes).padStart(2, '0')}</span>
-        <span>:</span>
-        <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
-        <span className="hidden md:inline text-xs md:text-sm"> DAYS HOURS MINS SECS</span>
-      </div>
+      
       {/* Right Section: Text and Button */}
       <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto justify-between sm:justify-end">
         <span className="text-sm sm:text-base">Fresh Mangoes Included!</span>
@@ -98,7 +90,7 @@ const MangoBanner = () => {
       {/* Close Button (Absolute Positioned) */}
       <button
         onClick={handleClose}
-        className="absolute top-3 right-3 text-white hover:text-gray-300 sm  sm:top-4 sm:right-4"
+        className="absolute top-3 right-3 text-white hover:text-gray-300 sm  sm:top-1 sm:right-4"
       >
         <X size={20} />
       </button>

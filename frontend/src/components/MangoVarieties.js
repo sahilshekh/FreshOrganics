@@ -9,11 +9,11 @@ const MangoVarieties = () => {
   const { addToCart } = useContext(CartContext);
 
   const varieties = [
-    { name: 'Alphonso', description: 'Sweet and juicy, the king of mangoes from Maharashtra.', price: 100, image: 'https://rukminim2.flixcart.com/image/832/832/xif0q/plant-sapling/e/t/c/annual-no-yes-kesar-mango-plant-1-plastic-bag-alphonso-original-imagj9nfgcpfd6r7.jpeg?q=70&crop=false' },
-    { name: 'Kesar', description: 'Rich, saffron-hued pulp from Gujarat, known for its aroma.', price: 150, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2mhljZJr72WypkJoGFAQtd-2swYg_7JdxalENCR-QXQDVZsZQjddU9lQ8Hhsd3j4hv0I&usqp=CAU' },
-    { name: 'Dasheri', description: 'Fiberless and sweet, a popular variety from Uttar Pradesh.', price: 200, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQigQ7tqv15Ch972iKoYJlQk1OPG6baoMvqkQ&s' },
-    { name: 'Banganapalli', description: 'Large and tangy, a favorite from Andhra Pradesh.', price: 170, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnx7NF6sMSW6OPrvfTEm0aw9Vl7cNO2n4JfA&s' },
-    { name: 'Mallika', description: 'A hybrid with a creamy texture, grown in South India.', price: 160, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5yyGitbfFr8ECJyCj2__Z9phYkdxUq8eW-w&s' },
+    { name: 'Alphonso(Hapus)', description: 'Renowned for its rich aroma, vibrant saffron hue, and buttery sweetness.', price: 799,originalPrice: 1200, isBestSeller: true, image: 'https://rukminim2.flixcart.com/image/832/832/xif0q/plant-sapling/e/t/c/annual-no-yes-kesar-mango-plant-1-plastic-bag-alphonso-original-imagj9nfgcpfd6r7.jpeg?q=70&crop=false' },
+    { name: 'Devgad Alphonso', description: 'Premium variety with thicker pulp and intense sweetness, often export quality.', price: 899,originalPrice: 3500, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2mhljZJr72WypkJoGFAQtd-2swYg_7JdxalENCR-QXQDVZsZQjddU9lQ8Hhsd3j4hv0I&usqp=CAU' },
+    { name: 'Ratnagiri Alphonso', description: 'Celebrated for its delicate skin, fragrant aroma, and balanced sweetness.', price: 599,originalPrice: 3500, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQigQ7tqv15Ch972iKoYJlQk1OPG6baoMvqkQ&s' },
+    { name: 'Kesar', description: 'Known as the ‘Queen of Mangoes’ for its bright orange pulp and honeyed flavor.', price: 999,originalPrice: 3200, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnx7NF6sMSW6OPrvfTEm0aw9Vl7cNO2n4JfA&s' },
+    { name: 'Pairi (Raspuri)', description: 'Juicy and tangy, ideal for juices and desserts, popular in South India.', price: 349,originalPrice: 600, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5yyGitbfFr8ECJyCj2__Z9phYkdxUq8eW-w&s' },
   ];
 
   const [quantities, setQuantities] = useState(
@@ -42,7 +42,7 @@ const MangoVarieties = () => {
 
   return (
     <div className="container mx-auto p-4 md:p-6 bg-gradient-to-b from-orange-50 to-white min-h-screen">
-      <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-orange-600">
+      <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-yellow-500">
         Discover Our Premium 100% Organic Mango Varieties
       </h1>
       {/* Image Section */}
@@ -64,7 +64,17 @@ const MangoVarieties = () => {
             key={index}
             className="relative bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
           >
-            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-orange-100 flex items-center justify-center overflow-hidden">
+            {variety.isBestSeller && (
+              <div className="absolute top-2 left-2 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                Best Seller
+              </div>
+            )}
+            {variety.name === 'Kesar' && (
+              <div className="absolute top-2 right-2 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                Our Recommended
+              </div>
+            )}
+            <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-orange-100 flex items-center justify-center overflow-hidden">
               <img src={variety.image} alt={variety.name} className="w-full h-full object-cover" />
             </div>
             <h2 className="text-xl md:text-2xl font-bold text-center mb-2 text-gray-800">
@@ -73,9 +83,14 @@ const MangoVarieties = () => {
             <p className="text-sm md:text-base text-gray-600 text-center mb-4">
               {variety.description}
             </p>
-            <p className="text-lg font-semibold text-center mb-4 text-orange-500">
-              ₹{variety.price.toFixed(2)} / kg
-            </p>
+            <div className="text-center mb-4">
+              <span className="text-lg font-semibold text-orange-500">
+                ₹{variety.price.toFixed(2)} / Dzn
+              </span>
+              <span className="ml-2 text-gray-400 line-through">
+                ₹{variety.originalPrice.toFixed(2)} / Dzn
+              </span>
+            </div>
             <div className="flex justify-center items-center space-x-3 mb-4">
               <button
                 onClick={() =>

@@ -24,7 +24,7 @@ const PrivacyPolicy = () => (
       <strong>Last updated:</strong> May 01, 2025
     </p>
 
-    {/* <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Pricing Policy</h2> */}
+    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Pricing Policy</h2>
     <p className="text-sm sm:text-base text-gray-600 mb-4">
       At onlyfams, we strive to provide transparent and fair pricing for all our products. Prices are listed in Indian Rupees (₹) and include applicable taxes unless otherwise stated. Prices are subject to change due to market conditions, seasonality, or supplier costs. We notify customers of any price changes through our website or email. Discounts or promotional offers are valid only during the specified period and cannot be combined unless stated.
     </p>
@@ -49,7 +49,7 @@ const PrivacyPolicy = () => (
 
     <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Cancellation/Refund Policy</h2>
     <p className="text-sm sm:text-base text-gray-600 mb-4">
-      You may cancel your order within 24 hours of placement by contacting us at support@onlyfams.com. Refunds are processed within 7-10 business days after cancellation approval, provided the product has not been shipped. If a product is damaged or defective upon delivery, please report it within 48 hours with photos for a full refund or replacement. Shipping costs are non-refundable unless the error is on our part.
+    You may cancel your order within 12 hours of placement by contacting us at support@onlyfams.com or send us a text message on our number +91-9637447770 . Refunds are processed within 7-10 business days after cancellation approval, provided the product has not been shipped. If a product is damaged or defective upon delivery, please report it within 12 hours with photos for a full refund or replacement which you can send us on whatsapp number +91-9637447770. Shipping costs are non-refundable.
     </p>
 
     <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Contact Us</h2>
@@ -149,7 +149,7 @@ const AppContent = () => {
 
   return (
     <>
-      <MangoBanner />
+      {/* <MangoBanner /> */}
       <Header ProtectedLink={ProtectedLink} />
       <Routes>
         <Route path="/" element={<Home />} />
