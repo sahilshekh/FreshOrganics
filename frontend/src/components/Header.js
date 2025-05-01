@@ -1,11 +1,36 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Menu, X, Home, Package, User, ShoppingCart, Building2 } from 'lucide-react';
 import { CartContext } from './CartContext';
-import logoImage from "./images/headerLogo.png";
+import logoImage from "./images/whiteLogo.png";
 
 const Header = ({ ProtectedLink }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { cartItemCount } = useContext(CartContext);
+  const [bannerVisible, setBannerVisible] = useState(!sessionStorage.getItem('mangoBannerClosed'));
+
+  // Update banner visibility state when sessionStorage or custom event changes
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setBannerVisible(!sessionStorage.getItem('mangoBannerClosed'));
+    };
+
+    const handleBannerClosed = () => {
+      setBannerVisible(false); // Update state when banner is closed
+    };
+
+    // Listen for storage changes
+    window.addEventListener('storage', handleStorageChange);
+    // Listen for custom bannerClosed event
+    window.addEventListener('bannerClosed', handleBannerClosed);
+
+    // Initial check
+    handleStorageChange();
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('bannerClosed', handleBannerClosed);
+    };
+  }, []);
 
   // Function to handle link clicks and close the menu
   const handleLinkClick = () => {
@@ -16,10 +41,12 @@ const Header = ({ ProtectedLink }) => {
     <nav className="bg-green-700 text-white p-4">
       <div className="flex justify-between items-center max-w-6xl mx-auto">
         {/* Logo Section */}
-        <div className="flex items-center">
-          <img src={logoImage} className="w-8 h-8 sm:w-10 sm:h-10 " alt="FreshOrganics Logo" />
-          <h1 className="text-xl font-bold">OnlyFarms</h1>
-        </div>
+        <ProtectedLink to="/mango-varieties" onClick={handleLinkClick}>
+          <div className="flex items-center">
+            <img src={logoImage} className="w-8 h-8 sm:w-10 sm:h-10" alt="FreshOrganics Logo" />
+            <h1 className="text-xl font-bold">OnlyFams</h1>
+          </div>
+        </ProtectedLink>
 
         {/* Right Section: Cart (Mobile) and Hamburger Button */}
         <div className="flex items-center space-x-4">
@@ -50,7 +77,9 @@ const Header = ({ ProtectedLink }) => {
         <ul
           className={`${
             isOpen ? 'flex' : 'hidden'
-          } md:flex flex-col md:flex-row md:space-x-6 absolute md:static top-16 left-0 w-full md:w-auto bg-green-700 md:bg-transparent p-4 md:p-0 transition-all duration-300 ease-in-out z-40`}
+          } md:flex flex-col md:flex-row md:space-x-6 absolute md:static ${
+            bannerVisible ? 'top-[10rem]' : 'top-16'
+          } left-0 w-full md:w-auto bg-green-700 md:bg-transparent p-4 md:p-0 transition-all duration-300 ease-in-out z-40`}
         >
           <li className="md:mb-0 mb-2">
             <ProtectedLink

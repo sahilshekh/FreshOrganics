@@ -1,34 +1,25 @@
-// firebase.js
 import { initializeApp } from 'firebase/app';
-import { getFirestore, connectFirestoreEmulator, enableIndexedDbPersistence } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDMYQLiGwXyvt9VnGWm1hp3b1QSOk-qXJc",
-  authDomain: "onlyfams-5fec4.firebaseapp.com",
-  projectId: "onlyfams-5fec4",
-  storageBucket: "onlyfams-5fec4.firebasestorage.app",
-  messagingSenderId: "151101608045",
-  appId: "1:151101608045:web:aa223c5f4e97a793aeaf64",
-  measurementId: "G-YL3Q99PF7P"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain:process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL:process.env.REACT_APP_FIREBASE_DatabaseURL,
+  projectId:process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId:process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId:process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId:process.env.REACT_APP_FIREBASE_MeasurementId
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Get Firestore and Auth services
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// Enable offline persistence
-enableIndexedDbPersistence(db).catch((err) => {
-  if (err.code === 'failed-precondition') {
-    console.warn('Offline persistence failed: multiple tabs open, persistence will be disabled.');
-  } else if (err.code === 'unimplemented') {
-    console.warn('Offline persistence is not available in this browser.');
-  }
-});
 
-// Connect to emulator in development
-if (process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost') {
-  connectFirestoreEmulator(db, 'localhost', 8080);
-}
 
 export { db, auth };

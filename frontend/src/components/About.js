@@ -166,7 +166,7 @@ const About = () => {
       {/* Mobile and Desktop: Call-to-Action Section */}
       <section className="bg-green-700 py-12 text-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-semibold mb-4">Join the OnlyFarms Community</h2>
+          <h2 className="text-3xl font-semibold mb-4">Join the onlyfams Community</h2>
           <p className="text-base mb-6">Experience the difference of fresh, organic produce at your doorstep.</p>
           <Link
             to="/subscriptions"

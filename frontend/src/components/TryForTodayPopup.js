@@ -4,12 +4,12 @@ import { CartContext } from './CartContext';
 
 // Mock product data (consistent with Products component where possible)
 const allProducts = [
-  { id: 1, name: 'Organic Tomatoes', price: 4.99, image: 'https://cdn.britannica.com/16/187216-050-CB57A09B/tomatoes-tomato-plant-Fruit-vegetable.jpg?w=600&q=60' },
-  { id: 2, name: 'Fresh Spinach', price: 3.99, image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-  { id: 3, name: 'Organic Carrots', price: 2.99, image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-  { id: 4, name: 'Bell Peppers', price: 5.99, image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
-  { id: 5, name: 'Organic Cucumbers', price: 2.99, image: 'https://images.unsplash.com/photo-1449300071707-507f48d1832b' },
-  { id: 6, name: 'Organic Avocados', price: 5.99, image: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578' },
+  { id: 1, name: 'Organic Tomatoes', price: 20, image: 'https://cdn.britannica.com/16/187216-050-CB57A09B/tomatoes-tomato-plant-Fruit-vegetable.jpg?w=600&q=60' },
+  { id: 2, name: 'Fresh Spinach', price: 15, image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
+  { id: 3, name: 'Organic Carrots', price: 25, image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
+  { id: 4, name: 'Bell Peppers', price: 10, image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
+  { id: 5, name: 'Organic Cucumbers', price: 7, image: 'https://images.unsplash.com/photo-1449300071707-507f48d1832b' },
+  { id: 6, name: 'Organic Avocados', price: 35, image: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578' },
 ];
 
 const TryForTodayPopup = ({ isOpen, onClose, onAddBundleToCart }) => {
@@ -69,7 +69,7 @@ const TryForTodayPopup = ({ isOpen, onClose, onAddBundleToCart }) => {
               />
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-                <p className="text-gray-600">${product.price.toFixed(2)}</p>
+                <p className="text-gray-600">₹{product.price.toFixed(2)}/ kg</p>
               </div>
             </div>
           ))}
@@ -77,7 +77,7 @@ const TryForTodayPopup = ({ isOpen, onClose, onAddBundleToCart }) => {
         {/* Bundle Price and Add to Cart Button */}
         <div className="mt-6 flex flex-col items-center">
           <p className="text-lg font-semibold text-gray-800 mb-4">
-            Bundle Price: ${totalBundlePrice}
+            Bundle Price: ₹{totalBundlePrice}
           </p>
           <button
             onClick={handleAddBundle}

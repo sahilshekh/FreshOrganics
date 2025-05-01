@@ -9,25 +9,25 @@ const Products = () => {
     {
       id: 1,
       name: 'Organic Tomatoes',
-      price: 4.99,
+      price: 30,
       image: 'https://cdn.britannica.com/16/187216-050-CB57A09B/tomatoes-tomato-plant-Fruit-vegetable.jpg?w=600&q=60',
     },
     {
       id: 2,
       name: 'Fresh Spinach',
-      price: 3.99,
+      price: 20,
       image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     },
     {
       id: 3,
       name: 'Organic Carrots',
-      price: 2.99,
+      price: 25,
       image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     },
     {
       id: 4,
       name: 'Bell Peppers',
-      price: 5.99,
+      price: 10,
       image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     },
   ];
@@ -43,7 +43,7 @@ const Products = () => {
           >
             <img src={product.image} alt={product.name} className="w-full h-32 md:h-48 object-cover rounded" />
             <h3 className="text-sm md:text-lg font-semibold mt-2 text-center">{product.name}</h3>
-            <p className="text-gray-600 mt-1 text-center">${product.price.toFixed(2)}/lb</p>
+            <p className="text-gray-600 mt-1 text-center">₹{product.price.toFixed(2)}/ kg</p>
             <div className="flex justify-center">
               <div className="md:hidden">
                 <button

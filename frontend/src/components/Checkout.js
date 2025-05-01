@@ -263,18 +263,18 @@ const Checkout = () => {
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
                     <p className="text-gray-600">
-                      ${item.price.toFixed(2)} x {item.quantity}
+                    ₹{item.price.toFixed(2)} x {item.quantity}
                     </p>
                   </div>
                   <p className="text-lg font-semibold text-gray-800">
-                    ${(item.price * item.quantity).toFixed(2)}
+                  ₹{(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
               ))}
               <div className="border-t pt-4 mt-4">
                 <div className="flex justify-between text-lg font-semibold text-gray-800">
                   <span>Total</span>
-                  <span>${totalPrice}</span>
+                  <span>₹{totalPrice}</span>
                 </div>
               </div>
               <div className="mt-6">

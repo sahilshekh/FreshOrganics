@@ -19,74 +19,50 @@ import { auth } from './firebase'; // Import Firebase auth
 // Privacy Policy Component
 const PrivacyPolicy = () => (
   <div className="container mx-auto p-4 sm:p-6 bg-white min-h-screen">
-    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-green-700">Privacy Policy</h1>
+    {/* <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-green-700">Privacy Policy</h1> */}
     <p className="text-sm sm:text-base text-gray-600 mb-4">
-      <strong>Last updated:</strong> April 29, 2025
-    </p>
-    <p className="text-sm sm:text-base text-gray-600 mb-4">
-      FreshOrganics ("us", "we", or "our") operates https://www.freshorganics.com (the "Site"). This page informs you of our policies regarding the collection, use, and disclosure of Personal Information we receive from users of the Site.
-    </p>
-    <p className="text-sm sm:text-base text-gray-600 mb-4">
-      We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy.
+      <strong>Last updated:</strong> May 01, 2025
     </p>
 
-    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Information Collection and Use</h2>
+    {/* <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Pricing Policy</h2> */}
     <p className="text-sm sm:text-base text-gray-600 mb-4">
-      While using our Site, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to, your name, email, and contact number ("Personal Information").
-    </p>
-    <p className="text-sm sm:text-base text-gray-600 mb-4">
-      We collect information from you when you register on our site, place an order, or fill out a form. When filling out a form on our site, for any of the above-mentioned reasons, you may be asked to enter your: name, e-mail address, and phone number. You may, however, visit our site anonymously. Any of the information we collect from you is used to personalize your experience, improve our website, process transactions, and enhance customer service. Any data collected will not be shared with any third party.
+      At onlyfams, we strive to provide transparent and fair pricing for all our products. Prices are listed in Indian Rupees (₹) and include applicable taxes unless otherwise stated. Prices are subject to change due to market conditions, seasonality, or supplier costs. We notify customers of any price changes through our website or email. Discounts or promotional offers are valid only during the specified period and cannot be combined unless stated.
     </p>
 
-    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Log Data</h2>
+    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Shipping Policy</h2>
     <p className="text-sm sm:text-base text-gray-600 mb-4">
-      Like many site operators, we collect information that your browser sends whenever you visit our Site ("Log Data").
-    </p>
-    <p className="text-sm sm:text-base text-gray-600 mb-4">
-      This Log Data may include information such as your computer's Internet Protocol ("IP") address, browser type, browser version, the pages of our Site that you visit, the time and date of your visit, the time spent on those pages, and other statistics.
-    </p>
-    <p className="text-sm sm:text-base text-gray-600 mb-4">
-      In addition, we may use third-party services such as Google Analytics that collect, monitor, and analyze page visits in anonymous ways.
+      We offer shipping across India for all orders placed on https://www.onlyfams.in/. Shipping charges are calculated at checkout based on your location and order weight. Standard delivery takes 3-7 business days, while express shipping (if available) takes 1-3 business days. Orders are processed within 24 hours, and tracking information will be provided via email. We are not responsible for delays due to unforeseen circumstances like weather or customs.
     </p>
 
-    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Communications</h2>
+    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Terms and Conditions</h2>
     <p className="text-sm sm:text-base text-gray-600 mb-4">
-      We may use your Personal Information to contact you with newsletters, marketing or promotional materials, and other information for the sole purpose of business transactions, such as order confirmations and updates.
+      By using the onlyfams website, you agree to comply with these terms. All purchases are subject to availability, and we reserve the right to refuse or cancel orders at our discretion. Payment must be made in full at the time of order placement. You are responsible for providing accurate delivery information. Any misuse of the site, including unauthorized access or fraudulent activity, will result in account termination and legal action.
     </p>
 
-    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Cookies</h2>
+    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Privacy Policy</h2>
     <p className="text-sm sm:text-base text-gray-600 mb-4">
-      Cookies are files with a small amount of data, which may include an anonymous unique identifier. Cookies are sent to your browser from a website and stored on your computer's hard drive.
+      onlyfams ("us", "we", or "our") operates https://www.onlyfams.in/ (the "Site"). This page informs you of our policies regarding the collection, use, and disclosure of Personal Information we receive from users of the Site. We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy.
     </p>
     <p className="text-sm sm:text-base text-gray-600 mb-4">
-      Like many sites, we use "cookies" to collect information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Site.
-    </p>
-
-    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Security</h2>
-    <p className="text-sm sm:text-base text-gray-600 mb-4">
-      The security of your Personal Information is important to us, but remember that no method of transmission over the Internet, or method of electronic storage, is 100% secure. While we strive to use commercially acceptable means to protect your Personal Information, we cannot guarantee its absolute security.
+      While using our Site, we may ask you to provide personally identifiable information such as your name, email, and contact number. This information is used to personalize your experience, process transactions, and enhance customer service. We do not share your data with third parties.
     </p>
 
-    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Changes to This Privacy Policy</h2>
+    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Cancellation/Refund Policy</h2>
     <p className="text-sm sm:text-base text-gray-600 mb-4">
-      This Privacy Policy is effective as of April 29, 2025, and will remain in effect except with respect to any changes in its provisions in the future, which will be in effect immediately after being posted on this page.
-    </p>
-    <p className="text-sm sm:text-base text-gray-600 mb-4">
-      We reserve the right to update or change our Privacy Policy at any time, and you should check this Privacy Policy periodically. Your continued use of the Site after we post any modifications to the Privacy Policy on this page will constitute your acknowledgment of the modifications and your consent to abide and be bound by the modified Privacy Policy.
-    </p>
-    <p className="text-sm sm:text-base text-gray-600 mb-4">
-      If we make any material changes to this Privacy Policy, we will notify you either through the email address you have provided us or by placing a prominent notice on our website.
+      You may cancel your order within 24 hours of placement by contacting us at support@onlyfams.com. Refunds are processed within 7-10 business days after cancellation approval, provided the product has not been shipped. If a product is damaged or defective upon delivery, please report it within 48 hours with photos for a full refund or replacement. Shipping costs are non-refundable unless the error is on our part.
     </p>
 
     <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mt-6 mb-3 text-green-600">Contact Us</h2>
     <p className="text-sm sm:text-base text-gray-600 mb-4">
-      If you have any questions about this Privacy Policy, please contact us at{' '}
-      <a href="mailto:support@freshorganics.com" className="text-green-600 hover:underline">
-        support@OnlyFarms.com
+      If you have any questions about these policies, please contact us at{' '}
+      <a href="mailto:support@onlyfams.com" className="text-green-600 hover:underline">
+        support@onlyfams.com
       </a>.
     </p>
   </div>
 );
+
+
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {

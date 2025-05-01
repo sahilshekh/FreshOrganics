@@ -19,17 +19,25 @@ export const CartProvider = ({ children }) => {
   }, [user]);
 
   const fetchCart = async () => {
+    console.log('Fetching cart for user:', user?.uid);
     if (!user) return;
     try {
       const cartRef = doc(db, 'carts', user.uid);
       const cartDoc = await getDoc(cartRef);
-      setCartItems(cartDoc.exists() ? cartDoc.data().items || [] : []);
+      const data = cartDoc.exists() ? cartDoc.data().items || [] : [];
+      // Ensure quantity is a number
+      const sanitizedItems = data.map(item => ({
+        ...item,
+        quantity: item.quantity ? Number(item.quantity) : 1,
+      }));
+      setCartItems(sanitizedItems);
     } catch (error) {
       console.error('Error fetching cart:', error.message);
     }
   };
 
   const addToCart = async (product) => {
+    console.log('Adding to cart:', product);
     if (!user) {
       toast.error('Please log in to add items to cart');
       return;
@@ -39,19 +47,20 @@ export const CartProvider = ({ children }) => {
       const cartDoc = await getDoc(cartRef);
       let items = cartDoc.exists() ? cartDoc.data().items || [] : [];
 
-      const existingItem = items.find((item) => item.id === product.id);
-      if (existingItem) {
-        items = items.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
+      const existingItemIndex = items.findIndex((item) => item.id === product.id);
+      if (existingItemIndex !== -1) {
+        items[existingItemIndex] = {
+          ...items[existingItemIndex],
+          quantity: (items[existingItemIndex].quantity || 0) + (product.quantity || 1),
+        };
       } else {
-        items.push({ ...product, quantity: 1 });
+        items.push({ ...product, quantity: product.quantity || 1 });
       }
 
       await setDoc(cartRef, { items }, { merge: true });
       setCartItems(items);
       console.log('Product added successfully, showing toast:', product.name);
-      toast.success(`${product.name} added to cart!`);
+      toast.success(`${product.name} (x${product.quantity || 1}) added to cart!`);
     } catch (error) {
       console.error('Error adding to cart:', error.message);
       if (navigator.onLine) {
@@ -73,13 +82,14 @@ export const CartProvider = ({ children }) => {
       let items = cartDoc.exists() ? cartDoc.data().items || [] : [];
 
       products.forEach((product) => {
-        const existingItem = items.find((item) => item.id === product.id);
-        if (existingItem) {
-          items = items.map((item) =>
-            item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-          );
+        const existingItemIndex = items.findIndex((item) => item.id === product.id);
+        if (existingItemIndex !== -1) {
+          items[existingItemIndex] = {
+            ...items[existingItemIndex],
+            quantity: (items[existingItemIndex].quantity || 0) + (product.quantity || 1),
+          };
         } else {
-          items.push({ ...product, quantity: 1 });
+          items.push({ ...product, quantity: product.quantity || 1 });
         }
       });
 
@@ -97,7 +107,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartItemCount = cartItems.reduce((total, item) => total + (item.quantity || 0), 0);
 
   return (
     <CartContext.Provider value={{ cartItems, setCartItems, addToCart, addBundleToCart, cartItemCount }}>

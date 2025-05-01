@@ -11,8 +11,11 @@ const Cart = () => {
   const { cartItems, setCartItems } = useContext(CartContext);
   const { user } = useAuth();
 
-  // Calculate total price
-  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  // Debug cart items
+  console.log('Cart items:', cartItems);
+
+  // Calculate total price with fallback for null values
+  const totalPrice = cartItems.reduce((total, item) => total + (item.price || 0) * (item.quantity || 0), 0).toFixed(2);
 
   // Save cart to Firestore
   const saveCart = async (updatedItems) => {
@@ -28,7 +31,7 @@ const Cart = () => {
   // Handle quantity increase
   const increaseQuantity = async (id) => {
     const updatedItems = cartItems.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      item.id === id ? { ...item, quantity: (item.quantity || 0) + 1 } : item
     );
     setCartItems(updatedItems);
     await saveCart(updatedItems);
@@ -37,7 +40,7 @@ const Cart = () => {
   // Handle quantity decrease
   const decreaseQuantity = async (id) => {
     const updatedItems = cartItems.map((item) =>
-      item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
+      item.id === id && (item.quantity || 0) > 1 ? { ...item, quantity: (item.quantity || 0) - 1 } : item
     );
     setCartItems(updatedItems);
     await saveCart(updatedItems);
@@ -90,7 +93,7 @@ const Cart = () => {
                   />
                   <div className="flex-1 text-center md:text-left">
                     <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                    <p className="text-gray-600">${item.price.toFixed(2)} / unit</p>
+                    <p className="text-gray-600">₹{(item.price || 0).toFixed(2)} / Kg</p>
                   </div>
                   <div className="flex items-center space-x-4 mt-4 md:mt-0">
                     <button
@@ -99,7 +102,7 @@ const Cart = () => {
                     >
                       <Minus className="h-5 w-5 text-gray-600" />
                     </button>
-                    <span className="text-lg">{item.quantity}</span>
+                    <span className="text-lg">{item.quantity || 0}</span>
                     <button
                       onClick={() => increaseQuantity(item.id)}
                       className="p-1 bg-gray-200 rounded-full hover:bg-gray-300"
@@ -109,7 +112,7 @@ const Cart = () => {
                   </div>
                   <div className="mt-4 md:mt-0 md:ml-6">
                     <p className="text-lg font-semibold text-gray-800">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ₹{((item.price || 0) * (item.quantity || 0)).toFixed(2)}
                     </p>
                   </div>
                   <button
@@ -123,7 +126,7 @@ const Cart = () => {
 
               {/* Total and Checkout */}
               <div className="bg-white p-6 rounded-lg shadow-md flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-gray-800">Total: ${totalPrice}</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Total: ₹{totalPrice}</h2>
                 <Link
                   to="/checkout"
                   className="inline-flex items-center bg-green-700 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-600 transition-colors duration-300"
