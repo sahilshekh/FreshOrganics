@@ -3,17 +3,19 @@ import toast from 'react-hot-toast';
 import { CartContext } from './CartContext';
 import mobileMangoImage from './images/mobileMango.jpeg'; // Import mobile image
 import desktopMangoImage from './images/desktopMango.jpeg'; // Import desktop image
-
+import alphonsoImage from './images/alpanso.webp'; // Import Alphonso image
+import kesarImage from './images/kesar.jpg'; // Import Kesar image
+import pairiImage from './images/pairi.jpg'; // Import Pairi image
 const MangoVarieties = () => {
   console.log('MangoVarieties rendering');
   const { addToCart } = useContext(CartContext);
 
   const varieties = [
-    { name: 'Alphonso(Hapus)', description: 'Renowned for its rich aroma, vibrant saffron hue, and buttery sweetness.', price: 799,originalPrice: 1200, isBestSeller: true, image: 'https://rukminim2.flixcart.com/image/832/832/xif0q/plant-sapling/e/t/c/annual-no-yes-kesar-mango-plant-1-plastic-bag-alphonso-original-imagj9nfgcpfd6r7.jpeg?q=70&crop=false' },
+    { name: 'Alphonso(Hapus)', description: 'Renowned for its rich aroma, vibrant saffron hue, and buttery sweetness.', price: 799,originalPrice: 1200, isBestSeller: true, image: alphonsoImage },
     { name: 'Devgad Alphonso', description: 'Premium variety with thicker pulp and intense sweetness, often export quality.', price: 899,originalPrice: 3500, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2mhljZJr72WypkJoGFAQtd-2swYg_7JdxalENCR-QXQDVZsZQjddU9lQ8Hhsd3j4hv0I&usqp=CAU' },
     { name: 'Ratnagiri Alphonso', description: 'Celebrated for its delicate skin, fragrant aroma, and balanced sweetness.', price: 599,originalPrice: 3500, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQigQ7tqv15Ch972iKoYJlQk1OPG6baoMvqkQ&s' },
-    { name: 'Kesar', description: 'Known as the ‘Queen of Mangoes’ for its bright orange pulp and honeyed flavor.', price: 999,originalPrice: 3200, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnx7NF6sMSW6OPrvfTEm0aw9Vl7cNO2n4JfA&s' },
-    { name: 'Pairi (Raspuri)', description: 'Juicy and tangy, ideal for juices and desserts, popular in South India.', price: 349,originalPrice: 600, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5yyGitbfFr8ECJyCj2__Z9phYkdxUq8eW-w&s' },
+    { name: 'Kesar', description: 'Known as the ‘Queen of Mangoes’ for its bright orange pulp and honeyed flavor.', price: 999,originalPrice: 3200, isBestSeller: false, image: kesarImage },
+    { name: 'Pairi (Raspuri)', description: 'Juicy and tangy, ideal for juices and desserts, popular in South India.', price: 349,originalPrice: 600, isBestSeller: false, image: pairiImage },
   ];
 
   const [quantities, setQuantities] = useState(

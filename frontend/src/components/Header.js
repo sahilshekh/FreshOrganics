@@ -78,7 +78,7 @@ const Header = ({ ProtectedLink }) => {
           className={`${
             isOpen ? 'flex' : 'hidden'
           } md:flex flex-col md:flex-row md:space-x-6 absolute md:static ${
-            bannerVisible ? 'top-[10rem]' : 'top-16'
+            bannerVisible ? 'top-[4rem]' : 'top-16'
           } left-0 w-full md:w-auto bg-green-700 md:bg-transparent p-4 md:p-0 transition-all duration-300 ease-in-out z-40`}
         >
           {/* <li className="md:mb-0 mb-2">
