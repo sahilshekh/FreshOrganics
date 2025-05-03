@@ -71,6 +71,56 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const updateQuantity = async (id, newQuantity) => {
+    if (!user) {
+      toast.error('Please log in to update cart');
+      return;
+    }
+    try {
+      const cartRef = doc(db, 'carts', user.uid);
+      const cartDoc = await getDoc(cartRef);
+      let items = cartDoc.exists() ? cartDoc.data().items || [] : [];
+
+      const itemIndex = items.findIndex((item) => item.id === id);
+      if (itemIndex !== -1) {
+        items[itemIndex] = { ...items[itemIndex], quantity: newQuantity };
+        await setDoc(cartRef, { items }, { merge: true });
+        setCartItems(items);
+      }
+    } catch (error) {
+      console.error('Error updating quantity:', error.message);
+      if (navigator.onLine) {
+        toast.error('Failed to update quantity due to a server issue');
+      } else {
+        toast.error('You are offline. Changes will sync when online.');
+      }
+    }
+  };
+
+  const removeFromCart = async (id) => {
+    if (!user) {
+      toast.error('Please log in to remove items from cart');
+      return;
+    }
+    try {
+      const cartRef = doc(db, 'carts', user.uid);
+      const cartDoc = await getDoc(cartRef);
+      let items = cartDoc.exists() ? cartDoc.data().items || [] : [];
+
+      items = items.filter((item) => item.id !== id);
+      await setDoc(cartRef, { items }, { merge: true });
+      setCartItems(items);
+      toast.success('Item removed from cart!');
+    } catch (error) {
+      console.error('Error removing item from cart:', error.message);
+      if (navigator.onLine) {
+        toast.error('Failed to remove item due to a server issue');
+      } else {
+        toast.error('You are offline. Changes will sync when online.');
+      }
+    }
+  };
+
   const addBundleToCart = async (products) => {
     if (!user) {
       toast.error('Please log in to add items to cart');
@@ -110,7 +160,7 @@ export const CartProvider = ({ children }) => {
   const cartItemCount = cartItems.reduce((total, item) => total + (item.quantity || 0), 0);
 
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems, addToCart, addBundleToCart, cartItemCount }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, addToCart, addBundleToCart, updateQuantity, removeFromCart, cartItemCount }}>
       {children}
     </CartContext.Provider>
   );
