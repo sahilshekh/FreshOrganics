@@ -14,6 +14,7 @@ import Subscriptions from './components/Subscriptions';
 import LoginSignupPopup from './components/LoginSignupPopup';
 import MangoVarieties from './components/MangoVarieties';
 import MangoBanner from './components/MangoCampaign';
+import OrderConfirmation from './components/OrderConfirmation';
 import { auth } from './firebase'; // Import Firebase auth
 
 // Privacy Policy Component
@@ -169,6 +170,7 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/order-confirmation" component={OrderConfirmation} />
         <Route path="/about" element={<About />} />
         <Route
           path="/profile"
