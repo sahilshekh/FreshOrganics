@@ -43,8 +43,8 @@ const Profile = () => {
                 <p className="text-gray-600"><strong>Email:</strong> {user.email}</p>
               </div>
               <div>
-                <p className="text-gray-600"><strong>Address:</strong> Not set</p>
-                <p className="text-gray-600"><strong>Phone:</strong> Not set</p>
+                <p className="text-gray-600"><strong>Address:</strong> {user.address}</p>
+                <p className="text-gray-600"><strong>Phone:</strong> {user.phone}</p>
               </div>
             </div>
             <div className="mt-6 flex justify-center md:justify-start">

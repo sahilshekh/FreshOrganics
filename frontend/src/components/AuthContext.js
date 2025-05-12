@@ -1,26 +1,62 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { auth, db } from '../firebase'; // Ensure db (Firestore) is exported from firebase.js
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  sendPasswordResetEmail,
+} from 'firebase/auth';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Listen to Firebase auth state changes
+  // Listen to Firebase auth state changes and fetch user profile from Firestore
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       if (firebaseUser) {
-        setUser({
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          name: firebaseUser.displayName || 'User',
-        });
+        // Fetch user profile from Firestore
+        const userDocRef = doc(db, 'users', firebaseUser.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          // User profile exists in Firestore
+          const userData = userDoc.data();
+          setUser({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: userData.name || firebaseUser.displayName || 'User',
+            address: userData.address || 'Not set',
+            phone: userData.phone || 'Not set', // Add phone field (optional for now)
+          });
+        } else {
+          // Create a new user profile in Firestore if it doesn't exist
+          const newUser = {
+            name: firebaseUser.displayName || 'User',
+            email: firebaseUser.email,
+            address: 'Not set',
+            phone: 'Not set',
+            createdAt: new Date().toISOString(),
+          };
+          await setDoc(userDocRef, newUser);
+          setUser({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: newUser.name,
+            address: newUser.address,
+            phone: newUser.phone,
+          });
+        }
       } else {
         setUser(null);
       }
+      setLoading(false);
     });
+
     return () => unsubscribe();
   }, []);
 
@@ -37,7 +73,8 @@ export const AuthProvider = ({ children }) => {
       await setDoc(doc(db, 'users', user.uid), {
         name,
         email,
-        address,
+        address: address || 'Not set',
+        phone: 'Not set', // Add phone field (optional for now)
         createdAt: new Date().toISOString(),
       });
 
@@ -79,9 +116,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Update profile function
+  const updateProfile = async (updatedData) => {
+    if (!user) return;
+    try {
+      const userDocRef = doc(db, 'users', user.uid);
+      await setDoc(userDocRef, updatedData, { merge: true });
+      setUser((prev) => ({ ...prev, ...updatedData }));
+    } catch (error) {
+      console.error('Error updating profile:', error.message);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, resetPassword }}>
-      {children}
+    <AuthContext.Provider value={{ user, login, signup, logout, resetPassword, updateProfile, loading }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 };

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { CartContext } from './CartContext';
 import { db } from '../firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from './AuthContext';
 import toast from 'react-hot-toast';
 
@@ -17,9 +17,20 @@ const Cart = () => {
 
   console.log('Cart items:', cartItems);
 
-  const totalPrice = cartItems
+  // Calculate subtotal
+  const subtotal = cartItems
     .reduce((total, item) => total + (item.price || 0) * (item.quantity || 0), 0)
     .toFixed(2);
+
+  // Determine delivery fee: ₹150 if subtotal < ₹1000, free otherwise
+  const deliveryFee = parseFloat(subtotal) < 1000 ? 150 : 0;
+
+  // Calculate final total (subtotal + delivery fee)
+  const finalTotal = (parseFloat(subtotal) + deliveryFee).toFixed(2);
+
+  // Calculate amount needed for free delivery (if subtotal < ₹1000)
+  const amountNeededForFreeDelivery =
+    parseFloat(subtotal) < 1000 ? (1000 - parseFloat(subtotal)).toFixed(2) : 0;
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -42,6 +53,25 @@ const Cart = () => {
     } catch (error) {
       console.error('Error saving cart:', error);
       toast.error('Failed to save cart');
+    }
+  };
+
+  const saveOrder = async (orderData) => {
+    try {
+      const orderRef = collection(db, 'orders');
+      const orderDoc = await addDoc(orderRef, {
+        userId: user.uid,
+        items: orderData.items,
+        subtotal: orderData.subtotal,
+        deliveryFee: orderData.deliveryFee,
+        total: orderData.total,
+        createdAt: serverTimestamp(),
+        status: 'completed',
+      });
+      return orderDoc.id;
+    } catch (error) {
+      console.error('Error saving order:', error);
+      throw new Error('Failed to save order');
     }
   };
 
@@ -87,7 +117,7 @@ const Cart = () => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            amount: parseFloat(totalPrice),
+            amount: parseFloat(finalTotal),
             userId: user.uid,
           }),
         }
@@ -95,22 +125,22 @@ const Cart = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.log('createOrder error:', errorData); // Log error response
+        console.log('createOrder error:', errorData);
         throw new Error(errorData.error || 'Failed to create order');
       }
 
       const { orderId, amount, currency } = await response.json();
-      console.log('createOrder response:', { orderId, amount, currency }); // Log success response
+      console.log('createOrder response:', { orderId, amount, currency });
 
       const options = {
-        key: 'rzp_live_54RIreCvC4vdEr', 
+        key: 'rzp_live_54RIreCvC4vdEr',
         amount,
         currency,
         name: 'Organic Store',
         description: 'Cart Payment',
         order_id: orderId,
         handler: async (response) => {
-          console.log('Razorpay payment success:', response); // Log success response
+          console.log('Razorpay payment success:', response);
           const verifyResponse = await fetch(
             'https://us-central1-onlyfams-prod.cloudfunctions.net/verifyPayment',
             {
@@ -126,7 +156,7 @@ const Cart = () => {
 
           if (!verifyResponse.ok) {
             const errorData = await verifyResponse.json();
-            console.log('verifyPayment error:', errorData); // Log error
+            console.log('verifyPayment error:', errorData);
             throw new Error(errorData.message || 'Failed to verify payment');
           }
 
@@ -136,33 +166,40 @@ const Cart = () => {
               userId: user.uid,
               orderId,
               paymentId: response.razorpay_payment_id,
-              amount: totalPrice,
+              amount: finalTotal,
               currency,
               cartItems,
               status: 'success',
               timestamp: new Date(),
             });
 
+            const orderDocId = await saveOrder({
+              items: cartItems,
+              subtotal: parseFloat(subtotal),
+              deliveryFee,
+              total: parseFloat(finalTotal),
+            });
+
             await setDoc(doc(db, 'carts', user.uid), { userId: user.uid, items: [] });
             setCartItems([]);
             toast.success('Payment successful!');
-            navigate('/order-confirmation');
+            navigate(`/order-confirmation/${orderDocId}`);
           } else {
             toast.error('Payment verification failed');
           }
         },
         prefill: {
-          name: user.displayName || '',
+          name: user.name || '',
           email: user.email || '',
-          contact: user.phoneNumber || '9999999999',
+          contact: user.phone || '',
         },
         theme: { color: '#16a34a' },
       };
 
-      console.log('Razorpay options:', options); // Log options
+      console.log('Razorpay options:', options);
       const razorpayInstance = new window.Razorpay(options);
       razorpayInstance.on('payment.failed', (response) => {
-        console.log('Razorpay payment failed:', response); // Log failure details
+        console.log('Razorpay payment failed:', response);
         toast.error(`Payment failed: ${response.error.description}`);
       });
       razorpayInstance.open();
@@ -242,11 +279,47 @@ const Cart = () => {
                 </div>
               ))}
 
-              <div className="bg-white p-6 rounded-lg shadow-md flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-gray-800">Total: ₹{totalPrice}</h2>
-                <div className="flex items-center space-x-4">
-                  {!scriptLoaded && !scriptError && <p>Loading Razorpay...</p>}
-                  {scriptError && <p className="text-red-500">{scriptError}</p>}
+              <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+                {/* Free Delivery Note */}
+                {amountNeededForFreeDelivery > 0 && (
+                  <div className="text-center bg-green-100 text-green-800 p-3 rounded-lg">
+                    <p>
+                      Add ₹{amountNeededForFreeDelivery} more to get{' '}
+                      <span className="font-semibold">free delivery</span>!
+                    </p>
+                    <Link
+                      to="/mango-varieties"
+                      className="inline-flex items-center text-green-700 hover:text-green-600 font-medium mt-2"
+                    >
+                      Shop More
+                      <ArrowRight className="h-5 w-5 ml-2" />
+                    </Link>
+                  </div>
+                )}
+                {/* Breakdown of charges */}
+                <div className="flex justify-between items-center">
+                  <h2 className="text-lg font-semibold text-gray-800">Subtotal:</h2>
+                  <p className="text-lg text-gray-800">₹{subtotal}</p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    Delivery Fee:
+                    {deliveryFee === 0 && (
+                      <span className="text-sm text-green-600 ml-2">(Free)</span>
+                    )}
+                  </h2>
+                  <p className="text-lg text-gray-800">₹{deliveryFee.toFixed(2)}</p>
+                </div>
+                <div className="flex justify-between items-center border-t pt-2">
+                  <h2 className="text-xl font-bold text-gray-800">Total:</h2>
+                  <p className="text-xl font-bold text-gray-800">₹{finalTotal}</p>
+                </div>
+                {/* Payment button */}
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-4">
+                    {!scriptLoaded && !scriptError && <p>Loading Razorpay...</p>}
+                    {scriptError && <p className="text-red-500">{scriptError}</p>}
+                  </div>
                   <button
                     onClick={handlePayment}
                     disabled={loading || !scriptLoaded || cartItems.length === 0}

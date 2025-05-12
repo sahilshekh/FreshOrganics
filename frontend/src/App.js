@@ -10,6 +10,8 @@ import Cart from './components/Cart';
 import Checkout from './components/Checkout';
 import About from './components/About';
 import Profile from './components/Profile';
+import EditProfile from './components/EditProfile';
+import OrderHistory from './components/OrderHistory';
 import Subscriptions from './components/Subscriptions';
 import LoginSignupPopup from './components/LoginSignupPopup';
 import MangoVarieties from './components/MangoVarieties';
@@ -138,7 +140,7 @@ const AppContent = () => {
       console.log('Setting 30-second timer for popup');
       const timer = setTimeout(() => {
         console.log('Opening LoginSignupPopup after 30 seconds');
-        setIsLoginPopupOpen(true);
+        // setIsLoginPopupOpen(true);
         sessionStorage.setItem('loginPopupShown', 'true');
       }, 30000);
       return () => {
@@ -180,6 +182,8 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/subscriptions" element={<Subscriptions />} />
         <Route path="/mango-varieties" element={<MangoVarieties />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
