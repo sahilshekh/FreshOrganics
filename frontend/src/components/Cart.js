@@ -211,7 +211,7 @@ const Cart = () => {
                   />
                   <div className="flex-1 text-center md:text-left">
                     <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                    <p className="text-gray-600">₹{(item.price || 0).toFixed(2)} / Kg</p>
+                    <p className="text-gray-600">₹{(item.price || 0).toFixed(2)} / Dzn</p>
                   </div>
                   <div className="flex items-center space-x-4 mt-4 md:mt-0">
                     <button
