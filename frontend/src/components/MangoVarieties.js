@@ -17,7 +17,7 @@ const MangoVarieties = () => {
     { name: 'Alphonso(Hapus)', description: 'Renowned for its rich aroma, vibrant saffron hue, and buttery sweetness.', price: 799, originalPrice: 1200, isBestSeller: true, image: alphonsoImage },
     { name: 'Devgad Alphonso', description: 'Premium variety with thicker pulp and intense sweetness, often export quality.', price: 899, originalPrice: 3500, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2mhljZJr72WypkJoGFAQtd-2swYg_7JdxalENCR-QXQDVZsZQjddU9lQ8Hhsd3j4hv0I&usqp=CAU' },
     { name: 'Ratnagiri Alphonso', description: 'Celebrated for its delicate skin, fragrant aroma, and balanced sweetness.', price: 599, originalPrice: 3500, isBestSeller: false, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQigQ7tqv15Ch972iKoYJlQk1OPG6baoMvqkQ&s' },
-    { name: 'Kesar', description: 'Known as the ‘Queen of Mangoes’ for its bright orange pulp and honeyed flavor.', price: 999, originalPrice: 3200, isBestSeller: false, image: kesarImage },
+    { name: 'Kesar', description: 'Known as the ‘Queen of Mangoes’ for its bright orange pulp and honeyed flavor.', price: 399, originalPrice: 3200, isBestSeller: false, image: kesarImage },
     { name: 'Pairi (Raspuri)', description: 'Juicy and tangy, ideal for juices and desserts, popular in South India.', price: 349, originalPrice: 600, isBestSeller: false, image: pairiImage },
   ];
 

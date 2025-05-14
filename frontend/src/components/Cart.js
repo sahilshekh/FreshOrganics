@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { CartContext } from './CartContext';
 import { db } from '../firebase';
-import { doc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, collection, addDoc, serverTimestamp,getDoc } from 'firebase/firestore';
 import { useAuth } from './AuthContext';
 import toast from 'react-hot-toast';
 
@@ -13,6 +13,10 @@ const Cart = () => {
   const [loading, setLoading] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [scriptError, setScriptError] = useState(null);
+  const [address, setAddress] = useState('');
+  const [pinCode, setPinCode] = useState('');
+  const [addressConfirmed, setAddressConfirmed] = useState(false);
+  const [addressError, setAddressError] = useState('');
   const navigate = useNavigate();
 
   console.log('Cart items:', cartItems);
@@ -32,6 +36,28 @@ const Cart = () => {
   const amountNeededForFreeDelivery =
     parseFloat(subtotal) < 1000 ? (1000 - parseFloat(subtotal)).toFixed(2) : 0;
 
+  // Load user's saved address (if any) from Firestore
+  useEffect(() => {
+    const loadUserAddress = async () => {
+      if (!user) return;
+      try {
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setAddress(userData.address || '');
+          setPinCode(userData.pinCode || '');
+          setAddressConfirmed(userData.address && userData.pinCode ? true : false);
+        }
+      } catch (error) {
+        console.error('Error loading user address:', error);
+      }
+    };
+
+    loadUserAddress();
+  }, [user]);
+
+  // Load Razorpay script
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -65,6 +91,8 @@ const Cart = () => {
         subtotal: orderData.subtotal,
         deliveryFee: orderData.deliveryFee,
         total: orderData.total,
+        address: orderData.address, // Save address
+        pinCode: orderData.pinCode, // Save pin code
         createdAt: serverTimestamp(),
         status: 'completed',
       });
@@ -97,9 +125,56 @@ const Cart = () => {
     await saveCart(updatedItems);
   };
 
+  // Validate pin code for Mumbai and Palghar districts
+  const validatePinCode = (pin) => {
+    const pinNum = parseInt(pin, 10);
+    // Mumbai: 400001 to 400104
+    // Palghar: 401201 to 401606
+    const isMumbai = pinNum >= 400001 && pinNum <= 400104;
+    const isPalghar = pinNum >= 401201 && pinNum <= 401606;
+    return isMumbai || isPalghar;
+  };
+
+  const handleConfirmAddress = async () => {
+    if (!address.trim()) {
+      setAddressError('Please enter a valid address.');
+      return;
+    }
+
+    if (!pinCode.trim() || pinCode.length !== 6 || isNaN(pinCode)) {
+      setAddressError('Please enter a valid 6-digit pin code.');
+      return;
+    }
+
+    if (!validatePinCode(pinCode)) {
+      setAddressError('We only deliver to Mumbai and Palghar districts. Please enter a valid pin code.');
+      return;
+    }
+
+    setAddressError('');
+    setAddressConfirmed(true);
+
+    // Save address to Firestore user document
+    if (user) {
+      try {
+        const userDocRef = doc(db, 'users', user.uid);
+        await setDoc(userDocRef, { address, pinCode }, { merge: true });
+        toast.success('Address confirmed successfully!');
+      } catch (error) {
+        console.error('Error saving address:', error);
+        toast.error('Failed to save address.');
+      }
+    }
+  };
+
   const handlePayment = async () => {
     if (!user) {
       toast.error('Please log in to proceed with payment');
+      return;
+    }
+
+    if (!addressConfirmed) {
+      toast.error('Please confirm your delivery address before proceeding.');
       return;
     }
 
@@ -178,6 +253,8 @@ const Cart = () => {
               subtotal: parseFloat(subtotal),
               deliveryFee,
               total: parseFloat(finalTotal),
+              address, // Include address in order
+              pinCode, // Include pin code in order
             });
 
             await setDoc(doc(db, 'carts', user.uid), { userId: user.uid, items: [] });
@@ -314,7 +391,73 @@ const Cart = () => {
                   <h2 className="text-xl font-bold text-gray-800">Total:</h2>
                   <p className="text-xl font-bold text-gray-800">₹{finalTotal}</p>
                 </div>
-                {/* Payment button */}
+              </div>
+
+              {/* Delivery Address Section */}
+              <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+                <h2 className="text-xl font-semibold text-gray-800">Delivery Address</h2>
+                <p className="text-gray-600">
+                  Note: We only deliver to Mumbai and Palghar districts.
+                </p>
+                {addressConfirmed ? (
+                  <div>
+                    <p className="text-gray-800">
+                      <strong>Address:</strong> {address}
+                    </p>
+                    <p className="text-gray-800">
+                      <strong>Pin Code:</strong> {pinCode}
+                    </p>
+                    <button
+                      onClick={() => setAddressConfirmed(false)}
+                      className="text-green-700 hover:text-green-600 font-medium mt-2"
+                    >
+                      Change Address
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="address" className="block text-gray-700 font-medium mb-1">
+                        Full Address
+                      </label>
+                      <textarea
+                        id="address"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        placeholder="Enter your full address (e.g., house number, street, area)"
+                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        rows="3"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="pinCode" className="block text-gray-700 font-medium mb-1">
+                        Pin Code
+                      </label>
+                      <input
+                        id="pinCode"
+                        type="text"
+                        value={pinCode}
+                        onChange={(e) => setPinCode(e.target.value)}
+                        placeholder="Enter 6-digit pin code"
+                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        maxLength="6"
+                      />
+                    </div>
+                    {addressError && (
+                      <p className="text-red-500 text-sm">{addressError}</p>
+                    )}
+                    <button
+                      onClick={handleConfirmAddress}
+                      className="w-full bg-green-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition-colors duration-300"
+                    >
+                      Confirm Address
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Payment Button */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center space-x-4">
                     {!scriptLoaded && !scriptError && <p>Loading Razorpay...</p>}
@@ -322,7 +465,7 @@ const Cart = () => {
                   </div>
                   <button
                     onClick={handlePayment}
-                    disabled={loading || !scriptLoaded || cartItems.length === 0}
+                    disabled={loading || !scriptLoaded || cartItems.length === 0 || !addressConfirmed}
                     className="inline-flex items-center bg-green-700 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-600 transition-colors duration-300 disabled:opacity-50"
                   >
                     {loading ? 'Processing...' : 'Pay Now'}
